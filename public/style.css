@@ -19,3 +19,24 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#cart {
+  display: flex;
+  flex-direction: row;
+}
+
+.shoppingcartitems {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 150px;
+}
+
+#carttotal {
+  padding: 5%;
+}
+
+.itemimages {
+  width: 60%; 
+  height: 70%;
+}

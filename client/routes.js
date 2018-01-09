@@ -6,6 +6,8 @@ import history from './history'
 import {Main, Login, Signup, UserHome} from './components'
 import {me} from './store'
 
+import Cart from './components/Cart'; /////hh
+
 /**
  * COMPONENT
  */
@@ -24,6 +26,7 @@ class Routes extends Component {
             {/* Routes placed here are available to all visitors */}
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route path="/cart" component={Cart} />
             {
               isLoggedIn &&
                 <Switch>
