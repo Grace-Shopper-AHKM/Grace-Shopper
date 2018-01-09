@@ -3,10 +3,29 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
+  fullName: {
+    type: Sequelize.VIRTUAL,
+    get () {
+      return this.getDataValue('firstName') + ' ' + this.getDataValue('lastName');
+    }
+  },
+  photo: {
+    type: Sequelize.STRING,
+    defaultValue: '/images/default-user.jpg'
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
+  },
+  address: {
+    type: Sequelize.TEXT
   },
   password: {
     type: Sequelize.STRING
@@ -16,10 +35,14 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
-module.exports = User
+module.exports = User;
 
 /**
  * instanceMethods
