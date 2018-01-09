@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import shippingAddressForm from '../../utils/shippingAddress';
@@ -15,7 +15,7 @@ class Checkout extends Component {
 
         return (
             <div>
-                <h1>Checkout ({})</h1>
+                <h1>Checkout{}</h1>
 
                 <h3>
                     Shipping Address:
@@ -25,7 +25,7 @@ class Checkout extends Component {
                 <button onClick={() => { }}>
                     Place your order
                 </button>
-                
+
                 <ul>
                     <h3>
                         Order Summary:
@@ -49,7 +49,7 @@ class Checkout extends Component {
 
                     <h3>
                         Order total:
-                </h3>
+                    </h3>
                 </ul>
             </div>
         )
