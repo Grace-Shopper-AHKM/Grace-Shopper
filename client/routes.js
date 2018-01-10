@@ -25,7 +25,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are available to all visitors */}
             <Route exact path="/books" component={AllBooks} />
-            <Route path="/books/:bookId" component={SingleBook} />
+            <Route exact path="/books/:bookId" component={SingleBook} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
