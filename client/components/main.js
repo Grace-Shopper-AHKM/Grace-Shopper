@@ -24,7 +24,7 @@ const Main = (props) => {
               <Link to="/">Home</Link>
               <Link to="/books">Books</Link>
               <Link to="/cart">Cart</Link>
-              <Link to={`/users/${userId}`}>My Account</Link>
+              <Link to={`/users/${userId}`}>Account</Link>
               <a href="#" onClick={handleClick}>Logout</a>
             </div>
             : <div>

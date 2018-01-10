@@ -5,6 +5,7 @@
  */
 export {default as Main} from './main'
 export {default as UserHome} from './UserHome'
+export { default as UserAccount} from './UserAccount';
 export {Login, Signup} from './auth-form'
 export { default as AllBooks} from './AllBooks';
 export { default as SingleBook } from './SingleBook';
