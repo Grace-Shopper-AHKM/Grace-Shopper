@@ -10,13 +10,20 @@
  * Now that you've got the main idea, check it out in practice below!
  */
 const db = require('../server/db')
-const {User, Book, Review} = require('../server/db/models')
+const {User, Book, Review, Order} = require('../server/db/models')
 
 User.hasMany(Review);
 Review.belongsTo(User);
 
 Book.hasMany(Review);
 Review.belongsTo(Book);
+
+User.hasMany(Order);
+Order.belongsTo(User);
+
+Order.hasMany(Book);
+Book.belongsTo(Order);
+Order.belongsTo(Order, {as: 'parent'});
 
 const randomRating = () => Math.floor((Math.random() * 5) + 1);
 const randomBookId = () => Math.floor((Math.random() * 10) + 1);

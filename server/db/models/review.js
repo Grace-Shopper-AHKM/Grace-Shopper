@@ -6,7 +6,8 @@ const Review = db.define('review', {
     type: Sequelize.STRING,
   },
   review: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    allowNull: false
   },
   rating: {
     type: Sequelize.INTEGER,
