@@ -5,9 +5,17 @@ const db = require('../db')
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   lastName: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   fullName: {
     type: Sequelize.VIRTUAL,
@@ -15,7 +23,7 @@ const User = db.define('user', {
       return this.getDataValue('firstName') + ' ' + this.getDataValue('lastName');
     }
   },
-  photo: {
+  photoUrl: {
     type: Sequelize.STRING,
     defaultValue: '/images/default-user.jpg'
   },
@@ -28,7 +36,11 @@ const User = db.define('user', {
     }
   },
   address: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   password: {
     type: Sequelize.STRING

@@ -2,6 +2,7 @@ const User = require('./user');
 const Book = require('./book');
 const Review = require('./review');
 const Order = require('./order');
+const bookOrder = require('./bookOrder');
 
 User.hasMany(Review);
 Review.belongsTo(User);
@@ -12,9 +13,8 @@ Review.belongsTo(Book);
 User.hasMany(Order);
 Order.belongsTo(User);
 
-Order.hasMany(Book);
-Book.belongsToMany(Order, {through: 'Book'});
-Order.belongsTo(Order, {as: 'parent'}); // all orders that have same parentId are all books in the same order
+Book.belongsToMany(Order, {through: bookOrder});
+Order.belongsToMany(Book, {through: bookOrder});
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -26,5 +26,6 @@ module.exports = {
   User,
   Book,
   Review,
-  Order
+  Order,
+  bookOrder
 }
