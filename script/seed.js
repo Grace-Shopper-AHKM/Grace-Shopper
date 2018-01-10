@@ -1,16 +1,5 @@
-/**
- * Welcome to the seed file! This seed file uses a newer language feature called...
- *
- *                  -=-= ASYNC...AWAIT -=-=
- *
- * Async-await is a joy to use! Read more about it in the MDN docs:
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
- *
- * Now that you've got the main idea, check it out in practice below!
- */
 const db = require('../server/db')
-const {User, Book, Review} = require('../server/db/models')
+const {User, Book, Review, Order, bookOrder} = require('../server/db/models')
 
 User.hasMany(Review);
 Review.belongsTo(User);
@@ -18,15 +7,15 @@ Review.belongsTo(User);
 Book.hasMany(Review);
 Review.belongsTo(Book);
 
-const randomRating = () => Math.floor((Math.random() * 5) + 1);
-const randomBookId = () => Math.floor((Math.random() * 10) + 1);
-const randomUserId = () => Math.floor((Math.random() * 7) + 1);
+User.hasMany(Order);
+Order.belongsTo(User);
+
+Book.belongsToMany(Order, {through: bookOrder});
+Order.belongsToMany(Book, {through: bookOrder});
 
 async function seed () {
   await db.sync({force: true})
   console.log('db synced!')
-  // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
-  // executed until that promise resolves!
 
   const users = await Promise.all([
     User.create({
@@ -100,7 +89,7 @@ async function seed () {
       genre: 'biography',
       author: 'Tina Fey',
       inventory: 6,
-      price: 12,
+      price: 1200,
       description: 'In this hilarious book, Tina Fey reccounts her adventures from Chicago to SNL and beyond, full of wit, wisdom and how she came to "have it all"!  Liz Lemon rocks.'
     }),
     Book.create({
@@ -110,7 +99,7 @@ async function seed () {
       genre: 'fiction',
       author: 'JK Rowling',
       inventory: 12,
-      price: 17,
+      price: 1700,
       description: 'Hogwarts comes to America.  JK Rowling does it again with a menagerie of new magical creatures!  Recently adapted into a movie feature Eddie Redmayne and Colin Farrell!  Really recommended book!'
     }),
     Book.create({
@@ -120,7 +109,7 @@ async function seed () {
       genre: 'fiction',
       author: 'JK Rowling',
       inventory: 2,
-      price: 55,
+      price: 5500,
       description: 'The book that started it all.  Harry Potter started here, the boy wonder with a lighning bolt on his head.  Get it now, running out!'
     }),
     Book.create({
@@ -130,7 +119,7 @@ async function seed () {
       genre: 'fiction',
       author: 'Celeste Ng',
       inventory: 78,
-      price: 8,
+      price: 800,
       description: 'It is a good boook!'
     }),
     Book.create({
@@ -140,27 +129,27 @@ async function seed () {
       genre: 'graphic novel',
       author: 'Someone Someone',
       inventory: 1,
-      price: 35,
+      price: 3500,
       description: 'X-men are cool.  Wolverine is even cooler.  End of story.'
     }),
     Book.create({
       title: 'The \'27 Yankees',
       photo: '/images/the-27-yankees.jpg',
       sku: '4326',
-      genre: 'non-fiction',
+      genre: 'sports',
       author: 'Exel Gleckstein',
       inventory: 16,
-      price: 19,
+      price: 1900,
       description: 'Something about sports and baseball?  I think Ari will like it.'
     }),
     Book.create({
       title: 'The Paris Opera Ballet',
       photo: '/images/the-paris-opera-ballet.jpg',
       sku: '4327',
-      genre: 'non-fiction',
+      genre: 'dance',
       author: 'Amy Grant',
       inventory: 4,
-      price: 24,
+      price: 2400,
       description: 'Kevin likes the Paris Opera Ballet, especially the etoile star ballerina Sylvie Guillem.'
     }),
     Book.create({
@@ -170,7 +159,7 @@ async function seed () {
       genre: 'fiction',
       author: 'Cormac McCarthy',
       inventory: 6,
-      price: 7,
+      price: 700,
       description: 'Dystopian novel, got made into a movie.  Keep the hero alive.'
     }),
     Book.create({
@@ -180,7 +169,7 @@ async function seed () {
       genre: 'fiction',
       author: 'Harper Lee',
       inventory: 46,
-      price: 5,
+      price: 500,
       description: 'ON SALE!  Just $5!  One of the best books ever written, a timeless American classic.'
     }),
     Book.create({
@@ -189,35 +178,58 @@ async function seed () {
       genre: 'biography',
       author: 'Han Hung',
       inventory: 68,
-      price: 13,
+      price: 1300,
       description: 'This is a test.'
     })])
 
-  const reviewArr = []
+  const reviewArr = [];
   for (let i = 0; i < 20; i++) {
+    let randomRating = () => Math.floor((Math.random() * 5) + 1);
+    let randomBookId = () => Math.floor((Math.random() * books.length) + 1);
+    let randomUserId = () => Math.floor((Math.random() * users.length) + 1);
     reviewArr[i] = Review.create({
       title: 'Sample review title!',
       review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       rating: randomRating(),
       userId: randomUserId(),
       bookId: randomBookId()
-    })
+    });
   }
-  const reviews = await Promise.all(
-    reviewArr
-  );
+  const reviews = await Promise.all(reviewArr);
 
-  // Wowzers! We can even `await` on the right-hand side of the assignment operator
-  // and store the result that the promise resolves to in a variable! This is nice!
+  const orderArr = [];
+  for (let i = 0; i < 8; i++) {
+    let randomUserId = () => Math.floor((Math.random() * users.length) + 1);
+    let randomSid = () => Math.floor(Math.random() * 1E16).toString();
+    orderArr[i] = Order.create({
+      sid: randomSid(),
+      orderStatus: 'pending',
+      userId: randomUserId(),
+    });
+  }
+  const orders = await Promise.all(orderArr);
+
+  const bookOrderArr = [];
+  for (let i = 0; i < 12; i++) {
+    let randomBookId = () => Math.floor((Math.random() * books.length) + 1);
+    let randomOrderId = () => Math.floor((Math.random() * orders.length) + 1);
+    bookOrderArr[i] = bookOrder.create({
+      bookId: randomBookId(),
+      orderId: randomOrderId(),
+      price: 1000,
+      quantity: 4
+    });
+  }
+  const bookOrders = await Promise.all(bookOrderArr);
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${books.length} books`)
   console.log(`seeded ${reviews.length} reviews`)
+  console.log(`seeded ${orders.length} orders`)
+  console.log(`seeded ${bookOrders.length} bookOrders`)
   console.log(`seeded successfully`)
 }
 
-// Execute the `seed` function
-// `Async` functions always return a promise, so we can use `catch` to handle any errors
-// that might occur inside of `seed`
 seed()
   .catch(err => {
     console.error(err.message)
@@ -230,9 +242,4 @@ seed()
     console.log('db connection closed')
   })
 
-/*
- * note: everything outside of the async function is totally synchronous
- * The console.log below will occur before any of the logs that occur inside
- * of the async function
- */
 console.log('seeding...')
