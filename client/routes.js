@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, AllBooks, SingleBook, Checkout} from './components'
+import {Main, Login, Signup, UserHome, AllBooks, SingleBook, Checkout, Reviews} from './components'
 import {me} from './store'
 
 import Cart from './components/Cart'; /////hh
@@ -24,21 +24,14 @@ class Routes extends Component {
         <Main>
           <Switch>
             {/* Routes placed here are available to all visitors */}
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
             <Route exact path="/books" component={AllBooks} />
-            <Route path="/books/:bookId" component={SingleBook} />
+            <Route exact path="/books/:bookId" component={SingleBook} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/cart" component={Cart} />
-            {
-              isLoggedIn &&
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                </Switch>
-            }
-            {/* Displays our Login component as a fallback */}
-            <Route component={Login} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            {/* <Route path="/users/:userId" component={ NEED ACCOUNT PAGE } /> */}
+            <Route exact path="/" component={UserHome} />
           </Switch>
         </Main>
       </Router>

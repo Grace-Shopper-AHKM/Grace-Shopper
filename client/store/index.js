@@ -5,11 +5,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
 import books from './allBooks';
 import singleBook from './singleBook';
+import reviews from './reviews';
 
 const reducer = combineReducers({
   user,
   books,
-  singleBook
+  singleBook,
+  reviews
 })
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -21,3 +23,4 @@ export default store;
 export * from './user';
 export * from './allBooks';
 export * from './singleBook';
+export * from './reviews';
