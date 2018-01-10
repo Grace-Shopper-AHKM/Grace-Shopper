@@ -6,19 +6,35 @@ const Review = require('../db/models/review');
 const User = require('../db/models/user')
 
 router.get('/', (req, res, next) => {
-    Book.findAll({})
-        .then(books => {
-            console.log(books)
-            res.send(books)
+    let whereObj = {};
+    console.log('query ', req.query)
+
+    if (req.query) {
+        console.log('hitit')
+        whereObj.genre = req.query.genre
+        Book.findAll({
+            where: whereObj
         })
-        .catch(next);
+            .then(books => res.json(books))
+            .catch(next);
+    } else {
+        Book.findAll({})
+            .then(books => res.json(books))
+            .catch(next);
+    }
+
 });
 
-router.get('/:bookId', (req, res, next) => {
-    Book.findById(Number(req.params.bookId))
-        .then(book => res.send(book))
-        .catch(next);
-});
+// router.get('/:genre', (req, res, next) => {
+//     Book.findAll({
+//         where: {
+//             genre: req.params.genre
+//         }
+//         // maybe implement an order by here
+//     })
+//         .then(books => res.json(books))
+//         .catch(next);
+// });
 
 router.get('/:bookId/reviews', (req, res, next) => {
     Review.findAll({
@@ -27,17 +43,14 @@ router.get('/:bookId/reviews', (req, res, next) => {
         },
         include: [{model: User}]
     })
-        .then(reviews => res.send(reviews))
+        .then(reviews => res.json(reviews))
         .catch(next);
 });
 
-router.get('/:genre', (req, res, next) => {
-    Book.findAll({
-        where: {
-            genre: req.params.genre
-        }
-        // maybe implement an order by here
-    })
-        .then(books => res.send(books))
+router.get('/:bookId', (req, res, next) => {
+    Book.findById(Number(req.params.bookId))
+        .then(book => res.json(book))
         .catch(next);
 });
+
+
