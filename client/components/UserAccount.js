@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 
 /**
  * COMPONENT
@@ -18,7 +18,9 @@ export const UserAccount = (props) => {
                     </h1>
                     <img src={user.photo} />
                     <h3>
-                        Your Orders: {}
+                        {
+                            <NavLink to={`/users/${user.id}/orders`}>Your Orders</NavLink>
+                        }
                     </h3>
                     <h3>
                         Email: {user.email}
