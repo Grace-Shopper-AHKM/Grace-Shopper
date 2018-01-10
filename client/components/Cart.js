@@ -6,7 +6,7 @@ export default class Cart extends React.Component{
     constructor(){
         super();
         this.state = {
-            cart: [{itemId: '1', qty: 3}, {itemId: '2', qty: 1}, {itemId: '3', qty: 2}, {itemId: '4', qty: 6}]
+            cart: [{itemId: '1', qty: 3, price: '66', desc: 'This book is damn good. you will read it 10 times' }, {itemId: '2', qty: 1, price: '77', desc: 'This book is damn good. you will read it 100 times'}, {itemId: '3', qty: 2, price: '55', desc: 'This book is damn good. you will read it 100 times'}, {itemId: '4', qty: 6, price: '55', desc: 'This book is damn good. you will read it 100 times'}]
         }
 
         this.getShoppingCartItems = this.getShoppingCartItems.bind(this);
@@ -15,7 +15,7 @@ export default class Cart extends React.Component{
     getShoppingCartItems(){
         return (
             this.state.cart.map( (item, idx) => {
-                return <CartItems key={idx} />;
+                return <CartItems key={idx} qty={item.qty} price={item.price} desc={item.desc} />;
             })
         )          
     }
@@ -29,7 +29,7 @@ export default class Cart extends React.Component{
                     {this.getShoppingCartItems()}
                 </div>
                 <div style={{width: '20%'}}>
-                    <CartTotal />
+                    <CartTotal cartItems={this.state.cart}/>
                 </div>
             </div>
         )
