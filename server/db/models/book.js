@@ -9,7 +9,7 @@ const Book = db.define('book', {
   },
   photo: {
     type: Sequelize.STRING,
-    defaultValue: '/images/default-book.jpg'
+    defaultValue: '/images/default-book.jpeg'
   },
   sku: {
     type: Sequelize.STRING,
