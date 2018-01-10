@@ -18,10 +18,6 @@ Review.belongsTo(User);
 Book.hasMany(Review);
 Review.belongsTo(Book);
 
-const randomRating = () => Math.floor((Math.random() * 5) + 1);
-const randomBookId = () => Math.floor((Math.random() * 10) + 1);
-const randomUserId = () => Math.floor((Math.random() * 7) + 1);
-
 async function seed () {
   await db.sync({force: true})
   console.log('db synced!')
@@ -192,9 +188,14 @@ async function seed () {
       price: 13,
       description: 'This is a test.'
     })])
-
+    //FYI look into BULK CREATE. 
   const reviewArr = []
   for (let i = 0; i < 20; i++) {
+    //update users as well. 
+    let randomRating = () => Math.floor((Math.random() * 5) + 1);
+    let randomBookId = () => Math.floor((Math.random() * books.length) + 1);
+    let randomUserId = () => Math.floor((Math.random() * users.length) + 1);
+
     reviewArr[i] = Review.create({
       title: 'Sample review title!',
       review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',

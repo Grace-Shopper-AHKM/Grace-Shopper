@@ -3,6 +3,8 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  //make name required. allowing null.
+  //not empty validation as well for strings. 
   firstName: {
     type: Sequelize.STRING,
   },
@@ -15,6 +17,7 @@ const User = db.define('user', {
       return this.getDataValue('firstName') + ' ' + this.getDataValue('lastName');
     }
   },
+  //CG: rename photoUrl or imageUrl
   photo: {
     type: Sequelize.STRING,
     defaultValue: '/images/default-user.jpg'
