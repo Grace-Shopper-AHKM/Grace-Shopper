@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
-import {Main, Login, Signup, UserHome, AllBooks, SingleBook, Checkout, Reviews} from './components'
+import {Main, Login, Signup, UserHome, AllBooks, SingleBook, Checkout, UserAccount, Orders} from './components'
 import {me} from './store'
 
 import Cart from './components/Cart'; /////hh
@@ -30,7 +30,8 @@ class Routes extends Component {
             <Route path="/cart" component={Cart} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            {/* <Route path="/users/:userId" component={ NEED ACCOUNT PAGE } /> */}
+            <Route exact path="/users/:userId/orders" component={Orders} />
+            <Route path="/users/:userId" component={UserAccount} />
             <Route exact path="/" component={UserHome} />
           </Switch>
         </Main>

@@ -7,16 +7,14 @@ const User = require('../db/models/user')
 
 router.get('/', (req, res, next) => {
     let whereObj = {};
-    console.log('query ', req.query)
 
-    if (req.query) {
-        console.log('hitit')
+    if (Object.keys(req.query).length > 0) {
         whereObj.genre = req.query.genre
         Book.findAll({
             where: whereObj
         })
-            .then(books => res.json(books))
-            .catch(next);
+        .then(books => res.json(books))
+        .catch(next);
     } else {
         Book.findAll({})
             .then(books => res.json(books))
@@ -24,17 +22,6 @@ router.get('/', (req, res, next) => {
     }
 
 });
-
-// router.get('/:genre', (req, res, next) => {
-//     Book.findAll({
-//         where: {
-//             genre: req.params.genre
-//         }
-//         // maybe implement an order by here
-//     })
-//         .then(books => res.json(books))
-//         .catch(next);
-// });
 
 router.get('/:bookId/reviews', (req, res, next) => {
     Review.findAll({

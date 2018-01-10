@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAllBooks } from '../store';
+import GenreBar from './GenreBar';
 
 class AllBooks extends Component {
     componentDidMount() {
@@ -10,6 +11,8 @@ class AllBooks extends Component {
 
     render() {
         return (
+            <div>
+            <GenreBar books={this.props.books} />
             <div>
                 {
                     this.props.books.map(book => {
@@ -39,6 +42,7 @@ class AllBooks extends Component {
                             )
                     })
                 }
+            </div>
             </div>
         )
     }
