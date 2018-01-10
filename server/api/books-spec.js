@@ -40,7 +40,7 @@ describe('Book routes', () => {
                 .get('/api/books')
                 .expect(200)
                 .then(res => {
-                    console.log(res.body)
+                    // console.log(res.body)
                     expect(res.body).to.be.an('array')
                     expect(res.body[0].title).to.be.equal('Bossypants')
                     expect(res.body[1].author).to.be.equal('JK Rowling')
@@ -49,7 +49,7 @@ describe('Book routes', () => {
 
         it('GET /api/books/:bookId', () => {
             return request(app)
-                .get('/api/books/1')
+                .get('/api/books/2')
                 .expect(200)
                 .then(res => {
                     expect(res.body).to.be.an('object')

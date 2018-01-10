@@ -7,7 +7,10 @@ const User = require('../db/models/user')
 
 router.get('/', (req, res, next) => {
     Book.findAll({})
-        .then(books => res.send(books))
+        .then(books => {
+            console.log(books)
+            res.send(books)
+        })
         .catch(next);
 });
 
