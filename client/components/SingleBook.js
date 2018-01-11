@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchBook, fetchBookReviews } from '../store';
+import store, { fetchBook, fetchBookReviews, addItemThunk } from '../store';
 
 class SingleBook extends Component {
 
@@ -23,12 +23,16 @@ class SingleBook extends Component {
         this.setState({ displayReviews: !this.state.displayReviews })
     }
 
+    addToCart(book) {
+        this.props.addBook(book)
+    }
+
     render() {
         const book = this.props.singleBook;
 
         return (
             <div>
-                <img src={book.photo} />
+                <img src={book.photoUrl} />
                 <div>
                     <div>
                         <h3>{book.title}</h3>
@@ -70,7 +74,7 @@ class SingleBook extends Component {
                             ?
                             <div>
                                 <h3>In Stock.</h3>
-                                <button>Add to Cart</button>
+                                <button onClick={this.addToCart.bind(this, book)}>Add to Cart</button>
                             </div>
                             :
                             null
@@ -95,6 +99,9 @@ const mapDispatch = (dispatch) => {
         },
         loadReviews(id) {
             dispatch(fetchBookReviews(id));
+        },
+        addBook(book) {
+            dispatch(addItemThunk(book));
         }
     }
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import { getCart } from '../store';
-import store from '../store';
+import store, { deleteItem } from '../store';
 
 const con = console.log;
 
@@ -13,13 +12,8 @@ export default class CartItems extends React.Component{
         this.updateItemQty = this.updateItemQty.bind(this);
     }
 
-    deleteItemFromCart(itemid){
-        let newCart = [];
-        store.getState().cart.forEach((item => {
-            if( item.itemId !==  itemid)
-                newCart.push(item);
-        }))
-        store.dispatch(getCart(newCart));
+    deleteItemFromCart(item){
+        store.dispatch(deleteItem(item));
     }
 
     updateItemQty(event){
@@ -46,7 +40,14 @@ export default class CartItems extends React.Component{
                 </div>
                 <div className='itemdescription' style={{width: '50%'}}>
                     {this.props.desc}
+<<<<<<< HEAD
                     <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(this.props.itemid)}></input>
+=======
+                    
+                    <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(this.props.item)}></input>
+
+
+>>>>>>> 90dc8eab8b0b26f73679e03008736a00f4723390
                 </div>
                 <div style={{width: '20%'}}>${this.props.price}</div>
 
