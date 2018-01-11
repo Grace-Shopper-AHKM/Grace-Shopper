@@ -40,14 +40,7 @@ export default class CartItems extends React.Component{
                 </div>
                 <div className='itemdescription' style={{width: '50%'}}>
                     {this.props.desc}
-<<<<<<< HEAD
-                    <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(this.props.itemid)}></input>
-=======
-                    
                     <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(this.props.item)}></input>
-
-
->>>>>>> 90dc8eab8b0b26f73679e03008736a00f4723390
                 </div>
                 <div style={{width: '20%'}}>${this.props.price}</div>
 
