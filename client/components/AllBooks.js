@@ -13,7 +13,7 @@ class AllBooks extends Component {
     render() {
         return (
             <div>
-            {/* <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/> */}
+            <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/>
             <GenreBar books={this.props.books} />
             <div>
                 {
