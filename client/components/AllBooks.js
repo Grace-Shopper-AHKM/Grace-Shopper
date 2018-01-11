@@ -18,7 +18,7 @@ class AllBooks extends Component {
                     this.props.books.map(book => {
                             return (
                                 <div key={book.id}>
-                                    <img src={book.photo} />
+                                    <img src={book.photoUrl} />
                                     <ul>
                                         <NavLink to={`/books/${book.id}`}><li>{book.title}</li></NavLink>
                                         <li>by {book.author}</li>

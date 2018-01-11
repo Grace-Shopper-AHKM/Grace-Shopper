@@ -23,6 +23,16 @@ router.get('/', (req, res, next) => {
 
 });
 
+router.get('/genres/:genre', (req, res, next) => {
+    Book.findAll({
+        where: {
+            genre: req.params.genre
+        }
+    })
+        .then(books => res.json(books))
+        .catch(next);
+});
+
 router.get('/:bookId/reviews', (req, res, next) => {
     Review.findAll({
         where: {
