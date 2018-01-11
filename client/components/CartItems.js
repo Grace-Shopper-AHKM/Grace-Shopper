@@ -1,8 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import { getCart } from '../store';
-import store from '../store';
+import store, { deleteItem } from '../store';
 
 const con = console.log;
 
@@ -11,13 +10,8 @@ export default class CartItems extends React.Component{
         super();
     }
 
-    deleteItemFromCart(itemid){
-        let newCart = [];
-        store.getState().cart.map((item => {
-            if( item.itemId !==  itemid)
-                newCart.push(item);
-        }))
-        store.dispatch(getCart(newCart));
+    deleteItemFromCart(item){
+        store.dispatch(deleteItem(item));
     }
 
     render(){
@@ -29,7 +23,7 @@ export default class CartItems extends React.Component{
                 <div className='itemdescription' style={{width: '50%'}}>
                     {this.props.desc}
                     
-                    <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(this.props.itemid)}></input>
+                    <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(this.props.item)}></input>
 
 
                 </div>
