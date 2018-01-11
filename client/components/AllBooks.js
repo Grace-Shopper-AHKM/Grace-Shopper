@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAllBooks } from '../store';
+import { fetchAllBooks, searchAllBooks } from '../store';
+import { SearchBar } from './SearchBar';
 import GenreBar from './GenreBar';
 
 class AllBooks extends Component {
@@ -12,6 +13,7 @@ class AllBooks extends Component {
     render() {
         return (
             <div>
+            {/* <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/> */}
             <GenreBar books={this.props.books} />
             <div>
                 {
@@ -58,6 +60,9 @@ const mapDispatch = (dispatch) => {
     return {
         loadBooks() {
             dispatch(fetchAllBooks());
+        },
+        searchBooks(searchTerm) {
+            dispatch(searchAllBooks(searchTerm));
         }
     }
 }
