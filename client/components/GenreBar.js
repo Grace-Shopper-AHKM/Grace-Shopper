@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchGenres, fetchBooksByGenre } from '../store';
+import { fetchGenres, fetchBooksByGenre, fetchAllBooks } from '../store';
 
 class GenreBar extends Component {
 
@@ -19,6 +19,7 @@ class GenreBar extends Component {
             <div>
                 <h3>Genres</h3>
                 <ul>
+                    <li><span onClick={this.props.loadAllBooks}>All</span></li>
                     {
                         genres.map(genre => {
                             return (
@@ -45,6 +46,9 @@ const mapDispatch = (dispatch) => {
         },
         loadBooksByGenre(genre) {
             dispatch(fetchBooksByGenre(genre));
+        },
+        loadAllBooks() {
+            dispatch(fetchAllBooks());
         }
     }
 }
