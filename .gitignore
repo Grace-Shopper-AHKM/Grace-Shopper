@@ -38,3 +38,5 @@ secrets.js
 
 # package-lock.json
 package-lock.json
+
+script/deploy

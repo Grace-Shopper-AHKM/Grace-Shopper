@@ -23,7 +23,7 @@ class Cart extends React.Component{
     getShoppingCartItems(){
         return (
             this.props.cart.map( (item, idx) => {
-                return <CartItems key={idx} qty={item.qty} price={item.price} desc={item.desc} />;
+                return <CartItems key={idx} itemid={item.itemId} qty={item.qty} price={item.price} desc={item.desc} />;
             })
         )          
     }

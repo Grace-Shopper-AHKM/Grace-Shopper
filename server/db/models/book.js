@@ -5,9 +5,12 @@ const Book = db.define('book', {
   title: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
-  photo: {
+  photoUrl: {
     type: Sequelize.STRING,
     defaultValue: '/images/default-book.jpg'
   },
@@ -17,20 +20,23 @@ const Book = db.define('book', {
     allowNull: false
   },
   genre: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   },
   author: {
     type: Sequelize.STRING,
   },
   inventory: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: false
   },
   price: {
     type: Sequelize.INTEGER,
     allowNull: false
   },
   description: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    allowNull: false
   }
 })
 
