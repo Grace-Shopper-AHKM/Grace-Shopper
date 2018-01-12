@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
-const bookOrder = require('./bookOrder');
+const BookOrder = require('./bookOrder');
 
 const Order = db.define('order', {
   sid: {
@@ -17,33 +17,34 @@ const Order = db.define('order', {
     -> 'shipped'
     -> 'delivered'
     */
+  },
+  orderRecipient: {
+    type: Sequelize.STRING
+  },
+  orderEmail: {
+    type: Sequelize.STRING,
+    validate: {
+      isEmail: true
+    }
+  },
+  orderAddress: {
+    type: Sequelize.STRING
+  },
+  getOrderTotal: {
+    type: Sequelize.VIRTUAL,
+    get () {
+      return BookOrder.findAll({
+        where: {
+          orderId: this.id
+        }
+      })
+      .then(foundOrdersArray => {
+        return foundOrdersArray.reduce((accum, foundOrder) => {
+          return accum + foundOrder.subTotal;
+        }, 0);
+      });
+    }
   }
 })
 
 module.exports = Order;
-
-/**
- * instanceMethods
- */
-
-// orderInstance.getOrderTotal().then(v => console.log(v));
-Order.prototype.getTotal = (orderInstance) => {
-  return bookOrder.findAll({
-    where: {
-      orderId: orderInstance.id
-    }
-  })
-  .then(foundOrdersArray => {
-    return foundOrdersArray.reduce((accum, foundOrder) => {
-      return accum + foundOrder.subTotal;
-    });
-  })
-}
-
-/**
- * classMethods
- */
-
-/**
- * hooks
- */

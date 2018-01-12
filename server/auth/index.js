@@ -3,11 +3,13 @@ const User = require('../db/models/user')
 module.exports = router
 
 router.post('/login', (req, res, next) => {
+  const passwordAttempt = req.body.password;
+  delete req.body.password;
   User.findOne({where: {email: req.body.email}})
     .then(user => {
       if (!user) {
         res.status(401).send('User not found')
-      } else if (!user.correctPassword(req.body.password)) {
+      } else if (!user.correctPassword(passwordAttempt)) {
         res.status(401).send('Incorrect password')
       } else {
         req.login(user, err => (err ? next(err) : res.json(user)))
@@ -17,6 +19,8 @@ router.post('/login', (req, res, next) => {
 })
 
 router.post('/signup', (req, res, next) => {
+  delete req.body.isAdmin;
+  delete req.body.salt;
   User.create(req.body)
     .then(user => {
       req.login(user, err => (err ? next(err) : res.json(user)))
