@@ -1,13 +1,14 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import store, { deleteItem } from '../store';
+import store, { deleteItem, updateCartItem } from '../store';
 
 const con = console.log;
 
 export default class CartItems extends React.Component{
     constructor(){
         super();
+        this.qty = '';
         this.getUpdatedQty = this.getUpdatedQty.bind(this);
         this.updateItemQty = this.updateItemQty.bind(this);
     }
@@ -16,20 +17,17 @@ export default class CartItems extends React.Component{
         store.dispatch(deleteItem(item));
     }
 
-    updateItemQty(event){
-        con('event', event.target.value);
-        con('props', this.props);
-        // let newCart = store.getState().cart.map((item => {
-        //     if( item.itemId === itemid)
-        //         item.qty = newQty;
-        //     return item;
-        // }))
-        // store.dispatch(getCart(newCart));
+    updateItemQty(event, itemid){
+        let itemsToUpdate = store.getState().cart.map(item => {
+            if(item.id === itemid)
+                item.qty = this.qty;
+            return item;
+        })
+        store.dispatch(updateCartItem(itemsToUpdate));
     }
 
     getUpdatedQty(event, itemid){
-        con('yyyyyy', event.target.value);
-        con('ssssss', itemid)
+        this.qty = event.target.value;
     }
 
     render(){
@@ -44,12 +42,9 @@ export default class CartItems extends React.Component{
                 </div>
                 <div style={{width: '20%'}}>${this.props.price}</div>
 
-
-
-
                 <div style={{width: '20%'}}>
-                        <input className='qtybox' type='text' maxLength="3" defaultValue={this.props.qty} onChange={(event) => this.getUpdatedQty(event, this.props.itemid)}/>
-                        <button onClick={() => this.updateItemQty(this.props.itemid) }  >Update</button>
+                        <input className='qtybox' type='number' maxLength="3" defaultValue={this.props.qty} onChange={(event) => this.getUpdatedQty(event, this.props.itemid)}/>
+                        <button onClick={(event) => this.updateItemQty(event, this.props.itemid) }  >Update</button>
                 </div>
             </div>
         )

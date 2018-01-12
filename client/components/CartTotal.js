@@ -9,7 +9,8 @@ export default class CartTotal extends React.Component{
     getSubtotal(){
         var subTotal = 0;
         this.props.cartItems.forEach(item => {
-            subTotal += Number(item.price);
+            
+            subTotal += (Number(item.price) * Number(item.qty));
         })
         return subTotal;
     }
