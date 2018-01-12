@@ -1,5 +1,5 @@
 const db = require('../server/db')
-const {User, Book, Review, Order, bookOrder} = require('../server/db/models')
+const {User, Book, Review, Order, BookOrder} = require('../server/db/models')
 
 User.hasMany(Review);
 Review.belongsTo(User);
@@ -10,8 +10,8 @@ Review.belongsTo(Book);
 User.hasMany(Order);
 Order.belongsTo(User);
 
-Book.belongsToMany(Order, {through: bookOrder});
-Order.belongsToMany(Book, {through: bookOrder});
+Book.belongsToMany(Order, {through: BookOrder});
+Order.belongsToMany(Book, {through: BookOrder});
 
 async function seed () {
   await db.sync({force: true})
@@ -21,7 +21,7 @@ async function seed () {
     User.create({
       firstName: 'Abby',
       lastName: 'Alleyoop',
-      photo: '/images/woman1.jpg',
+      photoUrl: '/images/woman1.jpg',
       email: 'abby@abby.com',
       address: '1 Main Street, NYC, NY 10001',
       password: 'abby',
@@ -30,7 +30,7 @@ async function seed () {
     User.create({
       firstName: 'Betty',
       lastName: 'Bananas',
-      photo: '/images/woman2.jpg',
+      photoUrl: '/images/woman2.jpg',
       email: 'betty@betty.com',
       address: '2 Main Street, NYC, NY 10001',
       password: 'betty',
@@ -39,7 +39,7 @@ async function seed () {
     User.create({
       firstName: 'Cat',
       lastName: 'Catliano',
-      photo: '/images/woman3.jpg',
+      photoUrl: '/images/woman3.jpg',
       email: 'cat@cat.com',
       address: '3 Main Street, NYC, NY 10001',
       password: 'cat',
@@ -48,7 +48,7 @@ async function seed () {
     User.create({
       firstName: 'Edward',
       lastName: 'Enigma',
-      photo: '/images/man1.jpg',
+      photoUrl: '/images/man1.jpg',
       email: 'edward@edward.com',
       address: '4 Main Street, NYC, NY 10001',
       password: 'edward',
@@ -57,7 +57,7 @@ async function seed () {
     User.create({
       firstName: 'Francis',
       lastName: 'Falafel',
-      photo: '/images/man2.jpg',
+      photoUrl: '/images/man2.jpg',
       email: 'francis@francis.com',
       address: '5 Main Street, NYC, NY 10001',
       password: 'francis',
@@ -66,7 +66,7 @@ async function seed () {
     User.create({
       firstName: 'Gadiel',
       lastName: 'Gammon',
-      photo: '/images/man3.jpg',
+      photoUrl: '/images/man3.jpg',
       email: 'gadiel@gadiel.com',
       address: '6 Main Street, NYC, NY 10001',
       password: 'gadiel',
@@ -84,7 +84,7 @@ async function seed () {
   const books = await Promise.all([
     Book.create({
       title: 'Bossypants',
-      photo: '/images/bossypants.jpg',
+      photoUrl: '/images/bossypants.jpg',
       sku: '4321',
       genre: 'biography',
       author: 'Tina Fey',
@@ -94,7 +94,7 @@ async function seed () {
     }),
     Book.create({
       title: 'Fantastic Beasts and Where to Find Them',
-      photo: '/images/fantastic-beasts.jpg',
+      photoUrl: '/images/fantastic-beasts.jpg',
       sku: '4322',
       genre: 'fiction',
       author: 'JK Rowling',
@@ -104,7 +104,7 @@ async function seed () {
     }),
     Book.create({
       title: 'Harry Potter and the Sorcerer\'s Stone',
-      photo: '/images/harry-potter.jpg',
+      photoUrl: '/images/harry-potter.jpg',
       sku: '4323',
       genre: 'fiction',
       author: 'JK Rowling',
@@ -114,7 +114,7 @@ async function seed () {
     }),
     Book.create({
       title: 'Little Fires Everywhere',
-      photo: '/images/little-fires-everywhere.jpg',
+      photoUrl: '/images/little-fires-everywhere.jpg',
       sku: '4324',
       genre: 'fiction',
       author: 'Celeste Ng',
@@ -124,7 +124,7 @@ async function seed () {
     }),
     Book.create({
       title: 'Savage Wolverine:  Vol. 3',
-      photo: '/images/savage-wolverine-vol-3.jpg',
+      photoUrl: '/images/savage-wolverine-vol-3.jpg',
       sku: '4325',
       genre: 'graphic novel',
       author: 'Someone Someone',
@@ -134,7 +134,7 @@ async function seed () {
     }),
     Book.create({
       title: 'The \'27 Yankees',
-      photo: '/images/the-27-yankees.jpg',
+      photoUrl: '/images/the-27-yankees.jpg',
       sku: '4326',
       genre: 'sports',
       author: 'Exel Gleckstein',
@@ -144,7 +144,7 @@ async function seed () {
     }),
     Book.create({
       title: 'The Paris Opera Ballet',
-      photo: '/images/the-paris-opera-ballet.jpg',
+      photoUrl: '/images/the-paris-opera-ballet.jpg',
       sku: '4327',
       genre: 'dance',
       author: 'Amy Grant',
@@ -154,7 +154,7 @@ async function seed () {
     }),
     Book.create({
       title: 'The Road',
-      photo: '/images/the-road.jpg',
+      photoUrl: '/images/the-road.jpg',
       sku: '4328',
       genre: 'fiction',
       author: 'Cormac McCarthy',
@@ -164,7 +164,7 @@ async function seed () {
     }),
     Book.create({
       title: 'To Kill A Mockingbird',
-      photo: '/images/to-kill-a-mockingbird.jpg',
+      photoUrl: '/images/to-kill-a-mockingbird.jpg',
       sku: '4329',
       genre: 'fiction',
       author: 'Harper Lee',
@@ -213,11 +213,11 @@ async function seed () {
   for (let i = 0; i < 12; i++) {
     let randomBookId = () => Math.floor((Math.random() * books.length) + 1);
     let randomOrderId = () => Math.floor((Math.random() * orders.length) + 1);
-    bookOrderArr[i] = bookOrder.create({
+    let randomQuantity = () => Math.floor((Math.random() * 4) + 1);
+    bookOrderArr[i] = BookOrder.create({
       bookId: randomBookId(),
       orderId: randomOrderId(),
-      price: 1000,
-      quantity: 4
+      quantity: randomQuantity()
     });
   }
   const bookOrders = await Promise.all(bookOrderArr);
