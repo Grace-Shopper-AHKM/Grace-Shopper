@@ -9,7 +9,11 @@ export default class CartTotal extends Component {
     getSubtotal() {
         var subTotal = 0;
         this.props.cartItems.forEach(item => {
-            subTotal += Number(item.price);
+            // item {2: {id: 1, title:... price: ...}}
+            for (let key in item) {
+                let price = item[key].price
+                subTotal = subTotal + Number(key * price)
+            }
         })
         return subTotal;
     }

@@ -22,7 +22,8 @@ export default class CartItems extends Component {
                     <div style={{ width: '70%', height: '70%' }}><img className='itemimages' src='/images/fantastic-beasts.jpg' /></div>
                 </div>
                 <div className='itemdescription' style={{ width: '50%' }}>
-                    {item[Object.keys(item)[0]].description}
+                    <h3>{item[Object.keys(item)[0]].title}</h3>
+                    <p>{item[Object.keys(item)[0]].description}</p>
 
                     <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(item)}></input>
 
