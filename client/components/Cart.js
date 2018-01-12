@@ -20,21 +20,24 @@ class Cart extends React.Component{
         this.props.loadCart();
     }
 
-    getShoppingCartItems(){
+    getShoppingCartItems(cart){
+
         return (
-            this.props.cart.map( (item, idx) => {
-                return <CartItems key={idx} qty={item.qty} price={item.price} desc={item.desc} />;
+            cart.map( (item, idx) => {
+                return <CartItems key={idx} item={item} itemid={item.id} qty={item.qty} price={item.price} desc={item.desc} />;
             })
         )          
     }
 
     render(){
-        return(
+        return (
             <div id='cart' >
                 <div style={{width: '80%'}}>
                     <h3>Shopping Cart</h3>
                     <hr></hr>
-                    {this.getShoppingCartItems()}
+                    {
+                        this.getShoppingCartItems(this.props.cart)
+                    }
                 </div>
                 <div style={{width: '20%'}}>
                     <CartTotal cartItems={this.props.cart}/>
@@ -54,7 +57,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
     return {
         loadCart() {
-            dispatch(fetchCartItems());
+            dispatch(fetchCartItems(cart));
         }
     }
 }
