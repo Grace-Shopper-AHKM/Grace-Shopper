@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store, { fetchBook, fetchBookReviews, addItemThunk } from '../store';
+import store, { fetchBook, fetchBookReviews, addItemThunk, updateDatabaseCart } from '../store';
 
 class SingleBook extends Component {
 
@@ -24,11 +24,20 @@ class SingleBook extends Component {
     }
 
     addToCart(book) {
-        this.props.addBook(book)
+        this.props.addBook(book);
+    }
+
+    updateToCart(cart, quantity) {
+        var finalCart = {}; 
+        cart.map((book) => {
+            
+        })
+        this.props.updateCart(finalCart);
     }
 
     render() {
         const book = this.props.singleBook;
+        const cart = this.props.cart;
 
         return (
             <div>
@@ -46,24 +55,24 @@ class SingleBook extends Component {
                         }
                     </div>
                     <div>
-                    {
-                        this.state.displayReviews
-                            ?
-                            <div>
-                            <button onClick={this.toggleReviews.bind(this)}>Hide Reviews</button>
-                            {this.props.reviews.map(review => {
-                                return (
-                                    <ul key={review.id}>
-                                        <li>{review.title}, {review.rating} stars</li>
-                                        <li>by {review.user.fullName}</li>
-                                        <li>{review.review}</li>
-                                    </ul>
-                                )
-                            })}
-                            </div>
-                            :
-                            null
-                    }
+                        {
+                            this.state.displayReviews
+                                ?
+                                <div>
+                                    <button onClick={this.toggleReviews.bind(this)}>Hide Reviews</button>
+                                    {this.props.reviews.map(review => {
+                                        return (
+                                            <ul key={review.id}>
+                                                <li>{review.title}, {review.rating} stars</li>
+                                                <li>by {review.user.fullName}</li>
+                                                <li>{review.review}</li>
+                                            </ul>
+                                        )
+                                    })}
+                                </div>
+                                :
+                                null
+                        }
                         <p>{book.description}</p>
                     </div>
                 </div>
@@ -74,7 +83,12 @@ class SingleBook extends Component {
                             ?
                             <div>
                                 <h3>In Stock.</h3>
-                                <button onClick={this.addToCart.bind(this, book)}>Add to Cart</button>
+                                <button onClick={() => {
+                                    this.addToCart.bind(this, book);
+                                    this.updateToCart.bind(this, cart);
+                                }}>
+                                    Add to Cart
+                                </button>
                             </div>
                             :
                             null
@@ -88,7 +102,8 @@ class SingleBook extends Component {
 const mapState = (state) => {
     return {
         singleBook: state.singleBook,
-        reviews: state.reviews
+        reviews: state.reviews,
+        cart: state.cart
     }
 }
 
@@ -102,6 +117,9 @@ const mapDispatch = (dispatch) => {
         },
         addBook(book) {
             dispatch(addItemThunk(book));
+        },
+        updateCart(finalCart) {
+            dispatch(updateDatabaseCart(finalCart));
         }
     }
 }

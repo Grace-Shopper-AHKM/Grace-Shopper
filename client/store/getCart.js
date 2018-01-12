@@ -13,7 +13,7 @@ export function getCart(cart) {
     }
 }
 
-export function deleteItem(item){
+export function deleteItem(item) {
     return {
         type: DELETE_ITEM,
         item
@@ -39,9 +39,14 @@ export function addItemThunk(item) {
         return dispatch(addItemToCart(item))
     }
 }
+export function updateDatabaseCart(cart) {
+    return function thunk(dispatch) {
+        return axios.put('/cart', cart)
+    }
+}
 
-export function deleteCartItem(item){
-    return function thunk(dispatch){
+export function deleteCartItem(item) {
+    return function thunk(dispatch) {
         return dispatch(deleteItem(item))
     }
 }
