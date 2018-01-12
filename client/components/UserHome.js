@@ -7,13 +7,13 @@ import { withRouter } from 'react-router-dom'
  * COMPONENT
  */
 export const UserHome = (props) => {
-  const { firstName, isLoggedIn } = props
+  const { name, isLoggedIn } = props
 
   return (
     <div>
       {
         isLoggedIn
-          ? <h3>Welcome, {firstName}</h3>
+          ? <h3>Welcome, {name}</h3>
           : <h3>Welcome!</h3>
       }
     </div>
@@ -25,7 +25,7 @@ export const UserHome = (props) => {
  */
 const mapState = (state) => {
   return {
-    firstName: state.user.firstName,
+    name: state.user.name,
     isLoggedIn: !!state.user.id
   }
 }
@@ -36,6 +36,6 @@ export default withRouter(connect(mapState)(UserHome))
  * PROP TYPES
  */
 UserHome.propTypes = {
-  firstName: PropTypes.string,
+  name: PropTypes.string,
   isLoggedIn: PropTypes.bool.isRequired
 }
