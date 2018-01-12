@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store, { fetchBook, fetchBookReviews, addItemThunk } from '../store';
+import { fetchBook, fetchBookReviews, addItemThunk } from '../store';
 
 class SingleBook extends Component {
 
@@ -23,9 +23,11 @@ class SingleBook extends Component {
         this.setState({ displayReviews: !this.state.displayReviews })
     }
 
-    addToCart(book) {
-        this.props.addBook(book)
+    handleSubmit(book, event) {
+        event.preventDefault();
+        this.props.addBook({[event.target.quantity.value]: book})      
     }
+
 
     render() {
         const book = this.props.singleBook;
@@ -73,8 +75,16 @@ class SingleBook extends Component {
                         book.inventory > 0
                             ?
                             <div>
+                                <form onSubmit={this.handleSubmit.bind(this, book)}>
                                 <h3>In Stock.</h3>
-                                <button onClick={this.addToCart.bind(this, book)}>Add to Cart</button>
+                                <select name="quantity">
+                                    <option>Select quantity</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <button type="submit">Add to Cart</button>
+                                </form>
                             </div>
                             :
                             null
