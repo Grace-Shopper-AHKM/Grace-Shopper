@@ -11,6 +11,7 @@ class SingleBook extends Component {
         this.state = {
             displayReviews: false
         }
+        this.toggleReviews.bind(this);
     }
 
     componentDidMount() {
@@ -23,15 +24,8 @@ class SingleBook extends Component {
         this.setState({ displayReviews: !this.state.displayReviews })
     }
 
-    handleSubmit(book, event) {
-        event.preventDefault();
-        this.props.addBook({[event.target.quantity.value]: book})      
-    }
-
-
     render() {
-        const book = this.props.singleBook;
-
+        const { book, reviews, handleSubmit, maxQuantity } = this.props;
         return (
             <div>
                 <img src={book.photoUrl} />
@@ -42,30 +36,34 @@ class SingleBook extends Component {
                         {
                             !this.state.displayReviews
                                 ?
-                                <p>This book has {this.props.reviews.length} reviews. <span onClick={this.toggleReviews.bind(this)}><small>(See reviews)</small></span></p>
+                                <p>This book has {reviews.length} reviews.
+                                <span onClick={this.toggleReviews}>
+                                        <small>(See reviews)</small>
+                                </span>
+                                </p>
                                 :
                                 null
                         }
                     </div>
                     <div>
-                    {
-                        this.state.displayReviews
-                            ?
-                            <div>
-                            <button onClick={this.toggleReviews.bind(this)}>Hide Reviews</button>
-                            {this.props.reviews.map(review => {
-                                return (
-                                    <ul key={review.id}>
-                                        <li>{review.title}, {review.rating} stars</li>
-                                        <li>by {review.user.fullName}</li>
-                                        <li>{review.review}</li>
-                                    </ul>
-                                )
-                            })}
-                            </div>
-                            :
-                            null
-                    }
+                        {
+                            this.state.displayReviews
+                                ?
+                                <div>
+                                    <button onClick={this.toggleReviews}>Hide Reviews</button>
+                                    {reviews.map(review => {
+                                        return (
+                                            <ul key={review.id}>
+                                                <li>{review.title}, {review.rating} stars</li>
+                                                <li>by {review.user.fullName}</li>
+                                                <li>{review.review}</li>
+                                            </ul>
+                                        )
+                                    })}
+                                </div>
+                                :
+                                null
+                        }
                         <p>{book.description}</p>
                     </div>
                 </div>
@@ -75,15 +73,21 @@ class SingleBook extends Component {
                         book.inventory > 0
                             ?
                             <div>
-                                <form onSubmit={this.handleSubmit.bind(this, book)}>
-                                <h3>In Stock.</h3>
-                                <select name="quantity">
-                                    <option>Select quantity</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
-                                <button type="submit">Add to Cart</button>
+                                <form onSubmit={(evt) => {
+                                    handleSubmit(evt, book)
+                                }}>
+                                    <h3>In Stock.</h3>
+                                    <select name="quantity" required="true">
+                                        <option name="default" value="" disabled="true" selected>Select a quantity</option>
+                                        {
+                                            maxQuantity.map(quantity => {
+                                                return (
+                                                    <option key={quantity}>{quantity}</option>
+                                                );
+                                            })
+                                        }
+                                    </select>
+                                    <button type="submit">Add to Cart</button>
                                 </form>
                             </div>
                             :
@@ -95,14 +99,18 @@ class SingleBook extends Component {
     }
 }
 
-const mapState = (state) => {
+const mapState = (state, ownProps) => {
+    const bookId = Number(ownProps.match.params.bookId);
+    const book = state.books.find(book => bookId === book.id);
     return {
-        singleBook: state.singleBook,
-        reviews: state.reviews
+        book,
+        reviews: state.reviews,
+        maxQuantity: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
 }
 
 const mapDispatch = (dispatch) => {
+
     return {
         loadBooks(id) {
             dispatch(fetchBook(id));
@@ -110,8 +118,9 @@ const mapDispatch = (dispatch) => {
         loadReviews(id) {
             dispatch(fetchBookReviews(id));
         },
-        addBook(book) {
-            dispatch(addItemThunk(book));
+        handleSubmit(evt, book) {
+            evt.preventDefault();
+            dispatch(addItemThunk({ [evt.target.quantity.value]: book }));
         }
     }
 }
