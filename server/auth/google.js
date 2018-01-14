@@ -34,11 +34,12 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     const googleId = profile.id
     const name = profile.displayName
     const email = profile.emails[0].value
+    const photoUrl = profile.photos ? profile.photos[0].value : undefined
 
     User.find({where: {googleId}})
       .then(foundUser => (foundUser
         ? done(null, foundUser)
-        : User.create({name, email, googleId})
+        : User.create({name, email, googleId, photoUrl})
           .then(createdUser => done(null, createdUser))
       ))
       .catch(done)
@@ -49,7 +50,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   router.get('/', passport.authenticate('google', {scope: 'email'}))
 
   router.get('/callback', passport.authenticate('google', {
-    successRedirect: '/home',
+    successRedirect: '/',
     failureRedirect: '/login'
   }))
 

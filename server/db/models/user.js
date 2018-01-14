@@ -3,24 +3,11 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
-  firstName: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: true
-    }
-  },
-  lastName: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  fullName: {
-    type: Sequelize.VIRTUAL,
-    get () {
-      return this.getDataValue('firstName') + ' ' + this.getDataValue('lastName');
     }
   },
   photoUrl: {
@@ -35,12 +22,8 @@ const User = db.define('user', {
       isEmail: true
     }
   },
-  address: {
-    type: Sequelize.TEXT,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+  cart: {
+    type: Sequelize.JSON
   },
   password: {
     type: Sequelize.STRING
@@ -59,16 +42,20 @@ const User = db.define('user', {
 
 module.exports = User;
 
-/**
- * instanceMethods
- */
 User.prototype.correctPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt) === this.password
 }
 
-/**
- * classMethods
- */
+const excludedFields = ['password'];
+User.prototype.sanitize = function () {
+  const obj = {};
+  for (const key of Object.keys(this.toJSON())) {
+    if (excludedFields.includes(key)) continue;
+    obj[key] = this[key];
+  }
+  return obj;
+};
+
 User.generateSalt = function () {
   return crypto.randomBytes(16).toString('base64')
 }
@@ -81,9 +68,6 @@ User.encryptPassword = function (plainText, salt) {
     .digest('hex')
 }
 
-/**
- * hooks
- */
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
     user.salt = User.generateSalt()

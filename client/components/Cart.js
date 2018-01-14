@@ -1,18 +1,15 @@
-import React from 'react';
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { fetchCartItems } from '../store';
 
 import CartItems from './CartItems';
 import CartTotal from './CartTotal';
 
 
-class Cart extends React.Component{
-    constructor(){
+class Cart extends Component {
+    constructor() {
         super();
-        // this.state = {
-        //     cart: [{itemId: '1', qty: 3, price: '66', desc: 'This book is damn good. you will read it 10 times' }, {itemId: '2', qty: 1, price: '77', desc: 'This book is damn good. you will read it 100 times'}, {itemId: '3', qty: 2, price: '55', desc: 'This book is damn good. you will read it 100 times'}, {itemId: '4', qty: 6, price: '55', desc: 'This book is damn good. you will read it 100 times'}]
-        // }
         this.getShoppingCartItems = this.getShoppingCartItems.bind(this);
     }
 
@@ -20,27 +17,26 @@ class Cart extends React.Component{
         this.props.loadCart();
     }
 
-    getShoppingCartItems(cart){
-
+    getShoppingCartItems(cart) {
         return (
-            cart.map( (item, idx) => {
-                return <CartItems key={idx} item={item} itemid={item.id} qty={item.qty} price={item.price} desc={item.desc} />;
+            cart.map((item) => {
+                return <CartItems key={item.id} item={item} />;
             })
-        )          
+        )
     }
-
-    render(){
+    render() {
+        const { cart } = this.props;
         return (
             <div id='cart' >
-                <div style={{width: '80%'}}>
+                <div style={{ width: '80%' }}>
                     <h3>Shopping Cart</h3>
                     <hr></hr>
                     {
-                        this.getShoppingCartItems(this.props.cart)
+                        this.getShoppingCartItems(cart)
                     }
                 </div>
-                <div style={{width: '20%'}}>
-                    <CartTotal cartItems={this.props.cart}/>
+                <div style={{ width: '20%' }}>
+                    <CartTotal cartItems={cart} />
                 </div>
             </div>
         )
@@ -58,7 +54,8 @@ const mapDispatch = (dispatch) => {
     return {
         loadCart() {
             dispatch(fetchCartItems(cart));
-        }
+        },
+
     }
 }
 

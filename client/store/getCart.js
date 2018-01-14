@@ -3,9 +3,8 @@ const GET_CART = 'GET_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
 const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 const UPDATE_ITEM_QTY = 'UPDATE_ITEM_QTY';
+const ADD_TO_EXISTING_ITEM = 'ADD_TO_EXISTING_ITEM';
 
-// const cart = [{itemId: '1', qty: 3, price: '66', desc: 'This book is damn good. you will read it 10 times' }, {itemId: '2', qty: 1, price: '77', desc: 'This book is damn good. you will read it 100 times'}, {itemId: '3', qty: 2, price: '55', desc: 'This book is damn good. you will read it 100 times'}, {itemId: '4', qty: 6, price: '55', desc: 'This book is damn good. you will read it 100 times'}]
-const cart = [];
 //// ACTIONS
 export function getCart(cart) {
     return {
@@ -35,6 +34,13 @@ export function updateCartItem(cart){
     }
 }
 
+export function addToExistingItem(item) {
+    return {
+        type: ADD_TO_EXISTING_ITEM,
+        item
+    }
+}
+
 //THUNKS
 export function fetchCartItems() {
     return function thunk(dispatch) {
@@ -45,6 +51,12 @@ export function fetchCartItems() {
 export function addItemThunk(item) {
     return function thunk(dispatch) {
         return dispatch(addItemToCart(item))
+    }
+}
+
+export function addToExistingItemThunk(item) {
+    return function thunk(dispatch) {
+        return dispatch(addToExistingItem(item))
     }
 }
 
@@ -67,6 +79,12 @@ export default function cartReducer(state = [], action) {
             })
         case UPDATE_ITEM_QTY:
             return action.cart;
+        case ADD_TO_EXISTING_ITEM:
+            return state.map(item => {
+                if(item.id === action.item.id)
+                    item.qty += action.item.qty;
+                return item;
+            })
         default:
             return state;
     }

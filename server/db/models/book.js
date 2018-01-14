@@ -16,7 +16,6 @@ const Book = db.define('book', {
   },
   sku: {
     type: Sequelize.STRING,
-    unique: true,
     allowNull: false
   },
   genre: {
@@ -41,15 +40,3 @@ const Book = db.define('book', {
 })
 
 module.exports = Book;
-
-/**
- * instanceMethods
- */
-
-/**
- * classMethods
- */
-
-/**
- * hooks
- */
