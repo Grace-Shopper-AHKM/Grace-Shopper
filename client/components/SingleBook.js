@@ -120,8 +120,9 @@ const mapDispatch = (dispatch) => {
         },
         handleSubmit(evt, book) {
             evt.preventDefault();
-            if(store.getState().cart.length > 0)
-                dispatch(addToExistingItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]) }));
+            let updateItem = store.getState().cart.filter(item => {return item.id === book.id} )
+            if(updateItem.length > 0)
+                dispatch(addToExistingItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]) }, store.getState().user.id));
             else
                 dispatch(addItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]), book }));
         }

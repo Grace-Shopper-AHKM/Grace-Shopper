@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 const GET_CART = 'GET_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
@@ -34,10 +35,11 @@ export function updateCartItem(cart){
     }
 }
 
-export function addToExistingItem(item) {
+export function addToExistingItem(item, userid) {
     return {
         type: ADD_TO_EXISTING_ITEM,
-        item
+        item,
+        userid
     }
 }
 
@@ -54,9 +56,9 @@ export function addItemThunk(item) {
     }
 }
 
-export function addToExistingItemThunk(item) {
+export function addToExistingItemThunk(item, userid) {
     return function thunk(dispatch) {
-        return dispatch(addToExistingItem(item))
+        return dispatch(addToExistingItem(item, userid))
     }
 }
 
@@ -66,12 +68,24 @@ export function deleteCartItem(item){
     }
 }
 
+//// Utility Functions
+function addItemToCartDB(cart, userid){
+    //axios.put('/user/cart/' + userid, cart)
+    axios.put('/api/users/cart/1', cart)
+    .then((response) => console.log('aaaaaaaaaaaaaa', response.data))
+    .catch(err => console.log('addItemToCartDB', err));
+}
+
 //// REDUCER
 export default function cartReducer(state = [], action) {
     switch (action.type) {
         case GET_CART:
             return state;
         case ADD_ITEM_TO_CART:
+            let newState = [...state, action.item];
+            addItemToCartDB(newState, action.userid);
+
+
             return [...state, action.item];
         case DELETE_ITEM:
             return state.filter(item => {
