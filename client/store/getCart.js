@@ -14,7 +14,7 @@ export function getCart(cart) {
     }
 }
 
-export function deleteItem(item){
+export function deleteItem(item) {
     return {
         type: DELETE_ITEM,
         item
@@ -28,7 +28,7 @@ export function addItemToCart(item) {
     }
 }
 
-export function updateCartItem(cart){
+export function updateCartItem(cart) {
     return {
         type: UPDATE_ITEM_QTY,
         cart
@@ -62,9 +62,30 @@ export function addToExistingItemThunk(item, userid) {
     }
 }
 
-export function deleteCartItem(item){
-    return function thunk(dispatch){
+export function deleteCartItem(item) {
+    return function thunk(dispatch) {
         return dispatch(deleteItem(item))
+    }
+}
+
+export function addToSessionCart(item) {
+    return function thunk(dispatch) {
+        return axios.put('/add-to-cart', item)
+            .catch(console.error);
+    }
+}
+
+export function deleteFromSessionCart(itemId) {
+    return function thunk(dispatch) {
+        return axios.delete(`/delete-from-cart/${itemId}`)
+            .catch(console.error);
+    }
+}
+
+export function updateSessionCartQuantity(item) {
+    return function thunk(dispatch) {
+        return axios.put('/edit-cart-quantity', item)
+            .catch(console.error);
     }
 }
 
@@ -83,7 +104,7 @@ export default function cartReducer(state = [], action) {
             return action.cart;
         case ADD_TO_EXISTING_ITEM:
             return state.map(item => {
-                if(item.id === action.item.id)
+                if (item.id === action.item.id)
                     item.qty += action.item.qty;
                 return item;
             })
