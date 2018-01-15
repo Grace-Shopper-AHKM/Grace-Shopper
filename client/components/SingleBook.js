@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchBook, fetchBookReviews, addItemThunk } from '../store';
+import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk } from '../store';
 
 class SingleBook extends Component {
 
@@ -120,7 +120,11 @@ const mapDispatch = (dispatch) => {
         },
         handleSubmit(evt, book) {
             evt.preventDefault();
-            dispatch(addItemThunk({ [evt.target.quantity.value]: book }));
+            let updateItem = store.getState().cart.filter(item => {return item.id === book.id} )
+            if(updateItem.length > 0)
+                dispatch(addToExistingItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]) }, store.getState().user.id));
+            else
+                dispatch(addItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]), book }));
         }
     }
 }

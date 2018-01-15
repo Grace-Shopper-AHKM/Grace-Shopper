@@ -1,7 +1,10 @@
+import axios from 'axios';
 
 const GET_CART = 'GET_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
 const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
+const UPDATE_ITEM_QTY = 'UPDATE_ITEM_QTY';
+const ADD_TO_EXISTING_ITEM = 'ADD_TO_EXISTING_ITEM';
 
 //// ACTIONS
 export function getCart(cart) {
@@ -25,6 +28,21 @@ export function addItemToCart(item) {
     }
 }
 
+export function updateCartItem(cart){
+    return {
+        type: UPDATE_ITEM_QTY,
+        cart
+    }
+}
+
+export function addToExistingItem(item, userid) {
+    return {
+        type: ADD_TO_EXISTING_ITEM,
+        item,
+        userid
+    }
+}
+
 //THUNKS
 export function fetchCartItems() {
     return function thunk(dispatch) {
@@ -38,10 +56,24 @@ export function addItemThunk(item) {
     }
 }
 
+export function addToExistingItemThunk(item, userid) {
+    return function thunk(dispatch) {
+        return dispatch(addToExistingItem(item, userid))
+    }
+}
+
 export function deleteCartItem(item){
     return function thunk(dispatch){
         return dispatch(deleteItem(item))
     }
+}
+
+//// Utility Functions
+function addItemToCartDB(cart, userid){
+    //axios.put('/user/cart/' + userid, cart)
+    axios.put('/api/users/cart/1', cart)
+    .then((response) => console.log('aaaaaaaaaaaaaa', response.data))
+    .catch(err => console.log('addItemToCartDB', err));
 }
 
 //// REDUCER
@@ -50,10 +82,22 @@ export default function cartReducer(state = [], action) {
         case GET_CART:
             return state;
         case ADD_ITEM_TO_CART:
+            let newState = [...state, action.item];
+            addItemToCartDB(newState, action.userid);
+
+
             return [...state, action.item];
         case DELETE_ITEM:
             return state.filter(item => {
                 return item.id !== action.item.id
+            })
+        case UPDATE_ITEM_QTY:
+            return action.cart;
+        case ADD_TO_EXISTING_ITEM:
+            return state.map(item => {
+                if(item.id === action.item.id)
+                    item.qty += action.item.qty;
+                return item;
             })
         default:
             return state;
