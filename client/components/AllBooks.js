@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAllBooks, searchAllBooks } from '../store';
+import { fetchAllBooks, searchAllBooks, deleteBookFromDB } from '../store';
 import { SearchBar } from './SearchBar';
 import GenreBar from './GenreBar';
 
@@ -40,6 +40,7 @@ class AllBooks extends Component {
                                                 null
                                         }
                                     </ul>
+                                    <button onClick={() => this.props.deleteOneBook(book)}>Delete</button>
                                 </div>
                             )
                     })
@@ -63,6 +64,9 @@ const mapDispatch = (dispatch) => {
         },
         searchBooks(searchTerm) {
             dispatch(searchAllBooks(searchTerm));
+        },
+        deleteOneBook(book) {
+            dispatch(deleteBookFromDB(book))
         }
     }
 }

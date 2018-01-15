@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchGenres, fetchBooksByGenre, fetchAllBooks } from '../store';
+import { fetchGenres, fetchAllBooks } from '../store';
 
 class GenreBar extends Component {
-
-    componentDidMount() {
-        this.props.loadGenres();
-    }
 
     handleGenreSort(genre) {
         this.props.loadBooksByGenre(genre);
     }
 
     render() {
-        const genres = this.props.genres;
+        const genres = ['biography', 'dance', 'fiction', 'graphic novel', 'sports'];
         return (
             <div>
                 <h3>Genres</h3>
@@ -35,7 +31,6 @@ class GenreBar extends Component {
 
 const mapState = (state) => {
     return {
-        genres: state.genres
     }
 }
 
@@ -43,9 +38,6 @@ const mapDispatch = (dispatch) => {
     return {
         loadGenres() {
             dispatch(fetchGenres());
-        },
-        loadBooksByGenre(genre) {
-            dispatch(fetchBooksByGenre(genre));
         },
         loadAllBooks() {
             dispatch(fetchAllBooks());
