@@ -20,10 +20,11 @@ class Cart extends Component {
     getShoppingCartItems(cart) {
         return (
             cart.map((item) => {
-                return <CartItems item={item} />;
+                return <CartItems key={item.id} item={item} />;
             })
         )
     }
+    
     render() {
         const { cart } = this.props;
         return (

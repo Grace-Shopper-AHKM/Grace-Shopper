@@ -40,6 +40,12 @@ router.get('/:id', (req, res, next) => {
   res.json(req.requestedUser.sanitize());
 });
 
+router.put('/cart/:id', (req, res, next) => {
+    console.log('zzzzzzzzzzzzzzzz', req.params.id, req.body);
+    res.status(200).send({msg: "hellow!!!!!!!!!"});
+  }
+)
+
 router.put('/:id',
   gatekeeperMiddleware.isLoggedIn,
   gatekeeperMiddleware.isAdminOrSelf,
