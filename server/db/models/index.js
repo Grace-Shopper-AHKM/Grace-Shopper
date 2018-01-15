@@ -2,7 +2,7 @@ const User = require('./user');
 const Book = require('./book');
 const Review = require('./review');
 const Order = require('./order');
-const BookOrder = require('./BookOrder');
+const BookOrder = require('./bookOrder');
 
 User.hasMany(Review);
 Review.belongsTo(User);
