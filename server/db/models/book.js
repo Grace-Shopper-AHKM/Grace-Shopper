@@ -19,7 +19,8 @@ const Book = db.define('book', {
     allowNull: false
   },
   genre: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM('fiction', 'biography', 'graphic novel', 'sports', 'dance', 'general'),
+    defaultValue: 'general',
     allowNull: false
   },
   author: {

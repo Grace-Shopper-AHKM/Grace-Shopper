@@ -11,7 +11,7 @@ class SingleBook extends Component {
         this.state = {
             displayReviews: false
         }
-        this.toggleReviews.bind(this);
+        this.toggleReviews = this.toggleReviews.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +55,7 @@ class SingleBook extends Component {
                                         return (
                                             <ul key={review.id}>
                                                 <li>{review.title}, {review.rating} stars</li>
-                                                <li>by {review.user.fullName}</li>
+                                                <li>by {review.user.name}</li>
                                                 <li>{review.review}</li>
                                             </ul>
                                         )
@@ -68,7 +68,7 @@ class SingleBook extends Component {
                     </div>
                 </div>
                 <div>
-                    <h4>${book.price}</h4>
+                    <h4>${book.price / 100}</h4>
                     {
                         book.inventory > 0
                             ?
