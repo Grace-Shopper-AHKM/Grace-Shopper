@@ -7,7 +7,7 @@ const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
-const sessionStore = new SequelizeStore({db})
+const sessionStore = new SequelizeStore({ db })
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
@@ -45,12 +45,42 @@ const createApp = () => {
   app.use(session({
     secret: process.env.SESSION_SECRET || 'my best friend is Cody',
     store: sessionStore,
-    resave: false,
-    saveUninitialized: false
+    resave: true,
+    saveUninitialized: true
   }))
 
   app.use(passport.initialize())
   app.use(passport.session())
+
+  app.use('/', (req, res, next) => {
+    if (req.session.cart === undefined) {
+      req.session.cart = {};
+    }
+    next();
+  })
+
+  app.put('/add-to-cart', (req, res, next) => {
+    const item = req.body;
+    if (!req.session.cart[item.id]) {
+      req.session.cart[item.id] = item;
+    } else {
+      req.session.cart[item.id].qty += item.qty;
+    }
+    next();
+  });
+
+  app.delete('/delete-from-cart/:id', (req, res, next) => {
+    const itemId = req.params.id;
+    delete req.session.cart[itemId];
+    next();
+  });
+
+  app.put('/edit-cart-quantity', (req, res, next) => {
+    const item = req.body;
+    console.log(item);
+    req.session.cart[item.itemId].qty = item.qty;
+    next();
+  });
 
   // auth and api routes
   app.use('/auth', require('./auth'))
