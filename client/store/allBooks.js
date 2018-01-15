@@ -3,6 +3,7 @@ import axios from 'axios';
 const GET_BOOKS = 'GET_BOOKS';
 const SEARCH_BOOKS = 'SEARCH_BOOKS';
 const DELETE_BOOK = 'DELETE_BOOK';
+const ADD_BOOK = 'ADD_BOOK';
 
 export function getBooks(books) {
     return {
@@ -24,6 +25,14 @@ export function deleteBook(book) {
     book
   }
 }
+
+export function addBook(book) {
+  return {
+    type: ADD_BOOK,
+    book
+  }
+}
+
 
 export function fetchAllBooks() {
     return function thunk(dispatch) {
@@ -56,8 +65,17 @@ export function deleteBookFromDB(book) {
   return function thunk(dispatch) {
     return axios.delete(`/api/books/${book.id}/delete`)
       .then(() => dispatch(deleteBook(book)))
+      .catch(console.error)
   }
 }
+
+// export function addBookToDB(book) {
+//   return function thunk(dispatch) {
+//     return axios.post('/api/books/add', book)
+//       .then(newBook => dispatch(addBook(newBook)))
+//       .catch(console.error)
+//   }
+// }
 
 export default function booksReducer(state = [], action) {
     switch (action.type) {
@@ -69,6 +87,8 @@ export default function booksReducer(state = [], action) {
           return state.filter(book => {
             return book.id !== action.book.id;
           })
+        case ADD_BOOK:
+          return [...state, action.book];
         default:
             return state;
     }

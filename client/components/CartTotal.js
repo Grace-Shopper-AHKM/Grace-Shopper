@@ -11,7 +11,7 @@ export default class CartTotal extends Component {
         this.props.cartItems.forEach(item => {
             subTotal += (Number(item.qty) * Number(item.book.price));
         })
-        return subTotal;
+        return subTotal / 100;
     }
 
     render() {

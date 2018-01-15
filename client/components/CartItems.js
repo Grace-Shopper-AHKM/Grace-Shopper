@@ -42,7 +42,7 @@ export default class CartItems extends Component {
                     <p>{item.book.description}</p>
                     <input type="submit" value="Delete" onClick={() => this.deleteItemFromCart(item)}></input>
                 </div>
-                <div style={{ width: '20%' }}>${item.book.price}</div>
+                <div style={{ width: '20%' }}>${item.book.price / 100}</div>
                 <div style={{ width: '20%' }}>
                     <input className='qtybox' type='number' maxLength="3" defaultValue={item.qty} onChange={(event) => this.getUpdatedQty(event, this.props.itemid)}/>
                     <button onClick={(event) => this.updateItemQty(event, item.id) }  >Update</button>
