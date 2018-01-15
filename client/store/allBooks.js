@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const GET_BOOKS = 'GET_BOOKS';
 const SEARCH_BOOKS = 'SEARCH_BOOKS';
+const DELETE_BOOK = 'DELETE_BOOK';
 
 export function getBooks(books) {
     return {
@@ -15,6 +16,13 @@ export function searchBooks(searchTerm) {
         type: SEARCH_BOOKS,
         searchTerm
     }
+}
+
+export function deleteBook(book) {
+  return {
+    type: DELETE_BOOK,
+    book
+  }
 }
 
 export function fetchAllBooks() {
@@ -37,11 +45,18 @@ export function searchAllBooks(searchTerm) {
 
 export function fetchBooksByGenre(genre) {
     return function thunk(dispatch) {
-        return axios.get(`/api/books/genres/${genre}`)
+        return axios.get(`/api/books?genre=${genre}`)
             .then(res => res.data)
             .then(books => dispatch(getBooks(books)))
             .catch(console.error);
     }
+}
+
+export function deleteBookFromDB(book) {
+  return function thunk(dispatch) {
+    return axios.delete(`/api/books/${book.id}/delete`)
+      .then(() => dispatch(deleteBook(book)))
+  }
 }
 
 export default function booksReducer(state = [], action) {
@@ -50,6 +65,10 @@ export default function booksReducer(state = [], action) {
             return action.books;
         case SEARCH_BOOKS:
             return state.filter((book) => book.title.toLowerCase().includes(action.searchTerm.toLowerCase()));
+        case DELETE_BOOK:
+          return state.filter(book => {
+            return book.id !== action.book.id;
+          })
         default:
             return state;
     }
