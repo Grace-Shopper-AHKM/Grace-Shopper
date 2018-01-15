@@ -3,7 +3,7 @@ const {User} = require('../db/models');
 const gatekeeperMiddleware = require('../../utils/gatekeeperMiddleware');
 
 router.param('id', (req, res, next, id) => {
-  User.findById(id)
+  User.findById(Number(id))
     .then(user => {
       if (!user) {
         const error = new Error('No such user!');
