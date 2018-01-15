@@ -10,9 +10,11 @@ class AllBooks extends Component {
         this.props.loadBooks();
     }
 
+    //ES: Don't have to pass down as props 
     render() {
         return (
             <div>
+                
             <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/>
             <GenreBar books={this.props.books} />
             <div>

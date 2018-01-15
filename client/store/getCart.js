@@ -26,6 +26,7 @@ export function addItemToCart(item) {
 }
 
 //THUNKS
+//ES: WHAT IS THIS???
 export function fetchCartItems() {
     return function thunk(dispatch) {
         return dispatch(getCart(cart))

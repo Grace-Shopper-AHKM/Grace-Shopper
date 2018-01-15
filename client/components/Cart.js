@@ -17,6 +17,7 @@ class Cart extends Component {
         this.props.loadCart();
     }
 
+    //ES/CG : No need to make this a class method, put it in the render
     getShoppingCartItems(cart) {
         return (
             cart.map((item) => {

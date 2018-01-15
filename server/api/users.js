@@ -2,6 +2,11 @@ const router = require('express').Router();
 const {User} = require('../db/models');
 const gatekeeperMiddleware = require('../../utils/gatekeeperMiddleware');
 
+//CG: passport is already deserelizing the user
+//CG: no need for req.requestedUser
+//CG: use req.user
+//CG: make an async function, but use gatekeeper first
+
 router.param('id', (req, res, next, id) => {
   User.findById(Number(id))
     .then(user => {

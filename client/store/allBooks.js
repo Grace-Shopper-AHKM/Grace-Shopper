@@ -16,7 +16,7 @@ export function searchBooks(searchTerm) {
         searchTerm
     }
 }
-
+//Try to reduce these three thunks to a single one
 export function fetchAllBooks() {
     return function thunk(dispatch) {
         return axios.get('/api/books')
@@ -26,6 +26,7 @@ export function fetchAllBooks() {
     }
 }
 
+//ES: No need for this thunk
 export function searchAllBooks(searchTerm) {
     return function thunk(dispatch) {
         return axios.get('/api/books')
@@ -35,6 +36,7 @@ export function searchAllBooks(searchTerm) {
     }
 }
 
+//CG: use query param to books with genre as parameter
 export function fetchBooksByGenre(genre) {
     return function thunk(dispatch) {
         return axios.get(`/api/books/genres/${genre}`)

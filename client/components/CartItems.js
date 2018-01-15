@@ -14,10 +14,13 @@ export default class CartItems extends Component {
         store.dispatch(deleteItem(item));
     }
 
+    //ES: Classname formatting is off, don't do styling in-line
+    //CG: name should be defined based on the parent element
+    //CG: don't use single quotes, use double quote in react
     render() {
         const { item } = this.props;
         return (
-            <div className="shoppingcartitems">
+            <div className="shopping-cart-items">
                 <div className='itemimagecontainer' style={{ width: '10%' }}>
                     <div style={{ width: '70%', height: '70%' }}><img className='itemimages' src='/images/fantastic-beasts.jpg' /></div>
                 </div>

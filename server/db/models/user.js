@@ -47,6 +47,8 @@ User.prototype.correctPassword = function (candidatePwd) {
 }
 
 const excludedFields = ['password'];
+//ES/CG: use Sequelize Exclude
+//CG: Sanitizing is preventing malicious quering
 User.prototype.sanitize = function () {
   const obj = {};
   for (const key of Object.keys(this.toJSON())) {

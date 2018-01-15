@@ -2,6 +2,8 @@ const router = require('express').Router()
 const User = require('../db/models/user')
 module.exports = router
 
+
+//ES/CG: Why delete data off the req.body?
 router.post('/login', (req, res, next) => {
   const passwordAttempt = req.body.password;
   delete req.body.password;
@@ -18,6 +20,8 @@ router.post('/login', (req, res, next) => {
     .catch(next)
 })
 
+//CG: don't create off a req.body
+//CG: create a user where {email: req.body.email} etc
 router.post('/signup', (req, res, next) => {
   delete req.body.isAdmin;
   delete req.body.salt;

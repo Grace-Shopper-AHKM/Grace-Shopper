@@ -9,6 +9,8 @@ export function getGenres(genres) {
     }
 }
 
+//ES: this is a ton of work for little result
+//CG: make a route if it is it's own model, or numerate over the model, or use default data
 export function fetchGenres() {
     return function thunk(dispatch) {
         return axios.get('/api/books')
