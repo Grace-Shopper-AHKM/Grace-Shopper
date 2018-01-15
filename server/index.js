@@ -52,6 +52,15 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
+  app.put('/add-to-cart', (req, res, next) => {
+    const item = req.body;
+    if (!req.session.cart) {
+      req.session.cart = {};
+    }
+    if (!req.session.cart.item.id) { 
+      req.sesssion.cart
+    }
+  })
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
