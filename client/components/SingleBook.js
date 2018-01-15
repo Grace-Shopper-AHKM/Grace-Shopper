@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk } from '../store';
+import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk, addToSessionCart } from '../store';
 
 class SingleBook extends Component {
 
@@ -39,7 +39,7 @@ class SingleBook extends Component {
                                 <p>This book has {reviews.length} reviews.
                                 <span onClick={this.toggleReviews}>
                                         <small>(See reviews)</small>
-                                </span>
+                                    </span>
                                 </p>
                                 :
                                 null
@@ -109,8 +109,8 @@ const mapState = (state, ownProps) => {
     }
 }
 
-const mapDispatch = (dispatch) => {
-
+const mapDispatch = (dispatch, ownProps) => {
+    const { history } = ownProps;
     return {
         loadBooks(id) {
             dispatch(fetchBook(id));
@@ -120,11 +120,17 @@ const mapDispatch = (dispatch) => {
         },
         handleSubmit(evt, book) {
             evt.preventDefault();
-            let updateItem = store.getState().cart.filter(item => {return item.id === book.id} )
-            if(updateItem.length > 0)
+            let updateItem = store.getState().cart.filter(item => { return item.id === book.id })
+            const item = { id: book.id, qty: Number(evt.target.quantity.value) };
+            if (updateItem.length > 0) {
                 dispatch(addToExistingItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]) }, store.getState().user.id));
-            else
+            }
+            else {
                 dispatch(addItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]), book }));
+            }
+            dispatch(addToSessionCart(item));
+            alert('Your book was added to your cart!');
+            history.push('/books');
         }
     }
 }
