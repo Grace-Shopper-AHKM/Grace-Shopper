@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAllBooks, searchAllBooks, deleteBookFromDB } from '../store';
+import { fetchAllBooks, fetchTotalBooks, deleteBookFromDB, fetchFilteredBooks } from '../store';
 import { SearchBar } from './SearchBar';
 import GenreBar from './GenreBar';
 
 class AllBooks extends Component {
     componentDidMount() {
         this.props.loadBooks();
+        this.props.loadTotalBooks();
     }
 
     render() {
+        const { books, filteredBooks, deleteBookFromDB, searchBooks, } = this.props;
         return (
             <div>
-            <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/>
-            <GenreBar books={this.props.books} />
-            <div>
-                {
-                    this.props.books.map(book => {
+                <SearchBar books={books} searchBooks={searchBooks} />
+                <GenreBar books={books} />
+                <div>
+                    {
+                        filteredBooks.map(book => {
                             return (
                                 <div key={book.id}>
                                     <img src={book.photoUrl} />
@@ -40,12 +42,12 @@ class AllBooks extends Component {
                                                 null
                                         }
                                     </ul>
-                                    <button onClick={() => this.props.deleteOneBook(book)}>Delete</button>
+                                    <button onClick={() => deleteBookFromDB(book)}>Delete</button>
                                 </div>
                             )
-                    })
-                }
-            </div>
+                        })
+                    }
+                </div>
             </div>
         )
     }
@@ -53,7 +55,8 @@ class AllBooks extends Component {
 
 const mapState = (state) => {
     return {
-        books: state.books
+        books: state.books,
+        filteredBooks: state.searchFilter
     }
 }
 
@@ -62,11 +65,14 @@ const mapDispatch = (dispatch) => {
         loadBooks() {
             dispatch(fetchAllBooks());
         },
-        searchBooks(searchTerm) {
-            dispatch(searchAllBooks(searchTerm));
+        loadTotalBooks() {
+            dispatch(fetchTotalBooks());
         },
         deleteOneBook(book) {
             dispatch(deleteBookFromDB(book))
+        },
+        searchBooks(books, searchTerm) {
+            dispatch(fetchFilteredBooks(books, searchTerm));
         }
     }
 }

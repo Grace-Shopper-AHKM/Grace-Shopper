@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom'
  * COMPONENT
  */
 export const SearchBar = (props) => {
-    const { searchBooks, loadBooks } = props
+    const { books, searchBooks } = props
 
     return (
         <div>
@@ -16,8 +16,7 @@ export const SearchBar = (props) => {
                     type="text"
                     placeholder="Search by title here..."
                     onChange={(evt) => {
-                        loadBooks();
-                        searchBooks(evt.target.value);
+                        searchBooks(books, evt.target.value);
                     }}
                 />
             </form>
