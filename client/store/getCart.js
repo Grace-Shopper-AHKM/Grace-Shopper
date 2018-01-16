@@ -82,10 +82,6 @@ export default function cartReducer(state = [], action) {
         case GET_CART:
             return state;
         case ADD_ITEM_TO_CART:
-            let newState = [...state, action.item];
-            addItemToCartDB(newState, action.userid);
-
-
             return [...state, action.item];
         case DELETE_ITEM:
             return state.filter(item => {

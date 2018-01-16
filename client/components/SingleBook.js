@@ -3,7 +3,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk } from '../store';
 
-class SingleBook extends Component {
+export class SingleBook extends Component {
 
     constructor() {
         super();

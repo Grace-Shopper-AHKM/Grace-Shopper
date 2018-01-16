@@ -11,37 +11,27 @@ import {User, db} from '../../server/db/models'
 const adapter = new Adapter()
 enzyme.configure({adapter})
 
-describe('UserHome', () => {
-  let userHome
+// describe('UserHome', () => {
+//   let userHome
 
-  beforeEach(() => {
-    userHome = shallow(<UserHome email={'cody@email.com'} />)
-  })
+//   beforeEach(() => {
+//     userHome = shallow(<UserHome email={'cody@email.com'} />)
+//   })
 
-  it('renders the email in an h3', () => {
-    expect(userHome.find('h3').text()).to.be.equal('Welcome, cody@email.com')
-  })
-})
+//   it('renders the email in an h3', () => {
+//     expect(userHome.find('h3').text()).to.be.equal('Welcome, cody@email.com')
+//   })
+// })
 
 
 describe('Home Page', () => {
-  let userHome
+  let userHomeComponent
 
   beforeEach(() => {
-    userHome = shallow(<UserHome email={'han@email.com'} />)
-    
-    return db.sync({force: true})
-    .then(() => {
-      User.create({ 
-        firstName: 'han', lastName: 'h', email: 'email@eee.om'
-      })
-    });
-    
-    
-
+    userHomeComponent = shallow(<UserHome name={'doodoo'} isLoggedIn={true} />)
   })
-
+  
   it('renders welcome', () => {
-    expect(userHome.find('h3').text()).to.be.equal('Welcome, han@email.com')
+    expect(userHomeComponent.find('h3').text()).to.be.equal('Welcome, doodoo')
   })
 })
