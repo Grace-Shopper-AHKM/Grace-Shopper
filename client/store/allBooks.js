@@ -3,6 +3,7 @@ import axios from 'axios';
 const GET_BOOKS = 'GET_BOOKS';
 const SEARCH_BOOKS = 'SEARCH_BOOKS';
 
+
 export function getBooks(books) {
     return {
         type: GET_BOOKS,
@@ -35,14 +36,13 @@ export function searchAllBooks(searchTerm) {
     }
 }
 
-export function fetchBooksByGenre(genre) {
-    return function thunk(dispatch) {
-        return axios.get(`/api/books/genres/${genre}`)
-            .then(res => res.data)
-            .then(books => dispatch(getBooks(books)))
-            .catch(console.error);
-    }
-}
+// export function addBookToDB(book) {
+//   return function thunk(dispatch) {
+//     return axios.post('/api/books/add', book)
+//       .then(newBook => dispatch(addBook(newBook)))
+//       .catch(console.error)
+//   }
+// }
 
 export default function booksReducer(state = [], action) {
     switch (action.type) {

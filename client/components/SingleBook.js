@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk } from '../store';
+import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk, addToSessionCart } from '../store';
+import AddReview from './AddReview';
 
 export class SingleBook extends Component {
 
@@ -11,7 +12,7 @@ export class SingleBook extends Component {
         this.state = {
             displayReviews: false
         }
-        this.toggleReviews.bind(this);
+        this.toggleReviews = this.toggleReviews.bind(this);
     }
 
     componentDidMount() {
@@ -39,11 +40,18 @@ export class SingleBook extends Component {
                                 <p>This book has {reviews.length} reviews.
                                 <span onClick={this.toggleReviews}>
                                         <small>(See reviews)</small>
-                                </span>
+                                    </span>
                                 </p>
                                 :
                                 null
                         }
+                    </div>
+                    <div>
+                      {
+                        this.props.user.id ?
+                        <AddReview bookId={this.props.match.params.bookId} />
+                        : null
+                      }
                     </div>
                     <div>
                         {
@@ -51,11 +59,11 @@ export class SingleBook extends Component {
                                 ?
                                 <div>
                                     <button onClick={this.toggleReviews}>Hide Reviews</button>
-                                    {reviews.map(review => {
+                                    {reviews && reviews.map(review => {
                                         return (
                                             <ul key={review.id}>
                                                 <li>{review.title}, {review.rating} stars</li>
-                                                <li>by {review.user.fullName}</li>
+                                                <li>by {review.user ? review.user.name : this.props.user.name}</li>
                                                 <li>{review.review}</li>
                                             </ul>
                                         )
@@ -68,7 +76,7 @@ export class SingleBook extends Component {
                     </div>
                 </div>
                 <div>
-                    <h4>${book.price}</h4>
+                    <h4>${book.price / 100}</h4>
                     {
                         book.inventory > 0
                             ?
@@ -105,12 +113,13 @@ const mapState = (state, ownProps) => {
     return {
         book,
         reviews: state.reviews,
-        maxQuantity: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        maxQuantity: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        user: state.user
     }
 }
 
-const mapDispatch = (dispatch) => {
-
+const mapDispatch = (dispatch, ownProps) => {
+    const { history } = ownProps;
     return {
         loadBooks(id) {
             dispatch(fetchBook(id));
@@ -120,11 +129,17 @@ const mapDispatch = (dispatch) => {
         },
         handleSubmit(evt, book) {
             evt.preventDefault();
-            let updateItem = store.getState().cart.filter(item => {return item.id === book.id} )
-            if(updateItem.length > 0)
+            let updateItem = store.getState().cart.filter(item => { return item.id === book.id })
+            const item = { id: book.id, qty: Number(evt.target.quantity.value) };
+            if (updateItem.length > 0) {
                 dispatch(addToExistingItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]) }, store.getState().user.id));
-            else
+            }
+            else {
                 dispatch(addItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]), book }));
+            }
+            dispatch(addToSessionCart(item));
+            alert('Your book was added to your cart!');
+            history.push('/books');
         }
     }
 }
