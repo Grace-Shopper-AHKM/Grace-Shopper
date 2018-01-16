@@ -74,7 +74,7 @@ router.post('/:bookId/reviews',
       userId: req.user.id,
       bookId: Number(req.body.bookId)
     })
-      .then(review => res.json(review))
+      .then(review => res.json(review)) // eager load review before res.json (add name to review)
       .catch(next);
 });
 

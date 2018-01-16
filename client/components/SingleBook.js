@@ -63,7 +63,7 @@ class SingleBook extends Component {
                                         return (
                                             <ul key={review.id}>
                                                 <li>{review.title}, {review.rating} stars</li>
-                                                <li>by {review.user.name}</li>
+                                                <li>by {review.user ? review.user.name : this.props.user.name}</li>
                                                 <li>{review.review}</li>
                                             </ul>
                                         )
