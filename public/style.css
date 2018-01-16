@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -42,3 +46,41 @@ form div {
   width: 60%; 
   height: 70%;
 }
+
+#all-books {
+  display: flex;
+}
+
+#all-books-sidebar {
+  border: 1px solid black;
+  position: relative;
+}
+
+#all-books-sidebar ul {
+  list-style: none;
+  position: absolute;
+  left: -28px;
+  top: 46px;
+}
+
+#all-books-stream {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.all-books-book-info {
+  display: flex;
+  margin: 10px;
+}
+
+.all-books-book-info button {
+  /* flex-direction: column; */
+}
+
+.all-books-book-block {
+  margin: 5px;
+}
+
+
+

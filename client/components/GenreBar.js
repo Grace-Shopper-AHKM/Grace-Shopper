@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchGenres, fetchAllBooks, fetchBooksByGenre } from '../store';
+import { fetchGenres, fetchTotalBooks, fetchBooksByGenre } from '../store';
 
 class GenreBar extends Component {
 
@@ -40,7 +40,7 @@ const mapDispatch = (dispatch) => {
             dispatch(fetchGenres());
         },
         loadAllBooks() {
-            dispatch(fetchAllBooks());
+            dispatch(fetchTotalBooks());
         },
         loadBooksByGenre(genre) {
             dispatch(fetchBooksByGenre(genre));
