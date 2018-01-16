@@ -50,7 +50,7 @@ class SingleBook extends Component {
                             this.state.displayReviews
                                 ?
                                 <div>
-                                    <button onClick={this.toggleReviews}>Hide Reviews</button>
+                                    <button onClick={this.toggleReviews.bind(this)}>Hide Reviews</button>
                                     {reviews.map(review => {
                                         return (
                                             <ul key={review.id}>

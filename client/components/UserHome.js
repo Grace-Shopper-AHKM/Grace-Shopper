@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom'
  * COMPONENT
  */
 export const UserHome = (props) => {
-  const { name, isLoggedIn } = props
+  const { name, isLoggedIn, isAdmin } = props
 
   return (
     <div>
@@ -26,7 +26,8 @@ export const UserHome = (props) => {
 const mapState = (state) => {
   return {
     name: state.user.name,
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
   }
 }
 
