@@ -37,10 +37,9 @@ class CartItems extends Component {
                     handleUpdate(event, item.id, userId);
                     this.updateItemQty(event, item.id)
                 }}>
-                    <div className='itemimagecontainer' style={{ width: '10%' }}>
-                        <div style={{ width: '70%', height: '70%' }}><img className='itemimages' src={item.book.photoUrl} /></div>
-                    </div>
-                    <div className='itemdescription' style={{ width: '50%' }}>
+                    <div className="item-info">
+                    <img className='itemimages' src={item.book.photoUrl} />
+                    <div className='itemdescription'>
                         <h3>{item.book.title}</h3>
                         <p>{item.book.description}</p>
                         <input type="submit" value="Delete" onClick={(event) => {
@@ -49,8 +48,10 @@ class CartItems extends Component {
                         }}
                         ></input>
                     </div>
-                    <div style={{ width: '20%' }}>${item.book.price}</div>
-                    <div style={{ width: '20%' }}>
+                    </div>
+                    <div className="cart-item-price">${item.book.price / 100 }</div>
+                    <div>
+                        <label name="Quantity">Quantity</label>
                         <input className='qtybox' type='number' maxLength="3" name="quantity" defaultValue={item.qty} onChange={(event) => this.getUpdatedQty(event, this.props.itemid)} />
                         <button type="submit" >Update</button>
                     </div>

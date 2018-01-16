@@ -17,7 +17,8 @@ router.post('/add-order', (req, res, next) => {
             let bookOrder = cart.map((item) => {
                 let entry = {
                     quantity: item.qty,
-                    bookId: item.id
+                    bookId: item.id,
+                    userId: req.user.id
                 };
                 return entry;
             });

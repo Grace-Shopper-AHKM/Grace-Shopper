@@ -9,7 +9,7 @@ import cart from './getCart';
 import reviews from './reviews';
 import displayForm from './displayForm';
 import searchFilter from './searchFilter';
-import orders from './Orders';
+import orders from './orders';
 
 const reducer = combineReducers({
   user,
