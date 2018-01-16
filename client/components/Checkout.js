@@ -19,10 +19,6 @@ export const Checkout = (props) => {
                     Items:
                 </li>
 
-                <li>
-                    Total before tax: {}
-                </li>
-
                 <h3>
                     Order total:
                 </h3>
@@ -36,7 +32,7 @@ export const Checkout = (props) => {
 const mapStateToProps = function (state, ownProps) {
     // const { cart } = state;
     return {
-        // cart
+        cart: state.cart
     };
 };
 
