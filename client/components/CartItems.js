@@ -38,7 +38,7 @@ class CartItems extends Component {
                     this.updateItemQty(event, item.id)
                 }}>
                     <div className='itemimagecontainer' style={{ width: '10%' }}>
-                        <div style={{ width: '70%', height: '70%' }}><img className='itemimages' src='/images/fantastic-beasts.jpg' /></div>
+                        <div style={{ width: '70%', height: '70%' }}><img className='itemimages' src={item.book.photoUrl} /></div>
                     </div>
                     <div className='itemdescription' style={{ width: '50%' }}>
                         <h3>{item.book.title}</h3>

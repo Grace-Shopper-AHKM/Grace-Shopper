@@ -14,7 +14,7 @@ export const UserAccount = (props) => {
             {
                 <div>
                     <h1>
-                        {user.firstName}'s boook Account
+                        {user.name}'s boook Account
                     </h1>
                     <img src={user.photo} />
                     <h3>
