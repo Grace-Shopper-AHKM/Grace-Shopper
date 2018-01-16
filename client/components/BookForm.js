@@ -56,7 +56,7 @@ export default class BookForm extends Component {
       axios.put(`/api/books/${this.props.book.id}/edit`, newBook)
       .then((book) => {
         store.dispatch(displayForm(false));
-        
+        store.dispatch(addBook(book.data));
       })
       .catch(console.error);
     } else {

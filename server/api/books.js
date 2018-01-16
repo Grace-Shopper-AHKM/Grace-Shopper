@@ -64,6 +64,20 @@ router.get('/:bookId/reviews', (req, res, next) => {
         .catch(next);
 });
 
+router.post('/:bookId/reviews',
+  gatekeeperMiddleware.isLoggedIn,
+  (req, res, next) => {
+    Review.create({
+      title: req.body.title,
+      review: req.body.review,
+      rating: req.body.rating,
+      userId: req.user.id,
+      bookId: Number(req.body.bookId)
+    })
+      .then(review => res.json(review)) // eager load review before res.json (add name to review)
+      .catch(next);
+});
+
 router.get('/:bookId', (req, res, next) => {
     Book.findById(Number(req.params.bookId))
         .then(book => res.json(book))
