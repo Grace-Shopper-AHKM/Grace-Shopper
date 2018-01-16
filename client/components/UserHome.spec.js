@@ -24,24 +24,15 @@ describe('UserHome', () => {
 })
 
 
+
 describe('Home Page', () => {
-  let userHome
+  let userHomeComponent
 
   beforeEach(() => {
-    userHome = shallow(<UserHome email={'han@email.com'} />)
-    
-    return db.sync({force: true})
-    .then(() => {
-      User.create({ 
-        firstName: 'han', lastName: 'h', email: 'email@eee.om'
-      })
-    });
-    
-    
-
+    userHomeComponent = shallow(<UserHome name={'doodoo'} isLoggedIn={true} />)
   })
-
+  
   it('renders welcome', () => {
-    expect(userHome.find('h3').text()).to.be.equal('Welcome, han@email.com')
+    expect(userHomeComponent.find('h3').text()).to.be.equal('Welcome, doodoo')
   })
 })
