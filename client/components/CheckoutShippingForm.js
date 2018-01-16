@@ -1,4 +1,7 @@
-export default function shippingAddressForm() {
+import React from 'react'
+
+export const CheckoutShippingForm = (props) => {
+    const { handleSubmit } = props;
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -13,6 +16,13 @@ export default function shippingAddressForm() {
                 <input
                     type="text"
                     name="lastName"
+                />
+            </div>
+            <div>
+                <label>Email:</label>
+                <input
+                    type="email"
+                    name="email"
                 />
             </div>
             <div>
@@ -50,6 +60,11 @@ export default function shippingAddressForm() {
                     name="zip"
                 />
             </div>
+            <button type="submit">
+                Place your order
+            </button>
         </form>
     )
 }
+
+export default CheckoutShippingForm;

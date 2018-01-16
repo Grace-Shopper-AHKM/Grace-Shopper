@@ -15,8 +15,8 @@ const defaultUser = {}
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
+const getUser = user => ({ type: GET_USER, user })
+const removeUser = () => ({ type: REMOVE_USER })
 
 /**
  * THUNK CREATORS
@@ -35,7 +35,7 @@ export const auth = (name, email, password, method) =>
         dispatch(getUser(res.data))
         history.push('/')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
-        dispatch(getUser({error: authError}))
+        dispatch(getUser({ error: authError }))
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
@@ -47,6 +47,27 @@ export const logout = () =>
         history.push('/login')
       })
       .catch(err => console.log(err))
+
+export function addToDBCart(item, userId) {
+  return function thunk(dispatch) {
+    return axios.put(`/api/users/${userId}/add-to-cart`, item)
+      .catch(console.error);
+  }
+}
+
+export function deleteFromDBCart(itemId, userId) {
+  return function thunk(dispatch) {
+    return axios.put(`/api/users/${userId}/delete-from-cart`, itemId)
+      .catch(console.error);
+  }
+}
+
+export function editQuantityDBCart(item, userId) {
+  return function thunk(dispatch) {
+    return axios.put(`/api/users/${userId}/edit-cart-quantity`, item)
+      .catch(console.error);
+  }
+}
 
 /**
  * REDUCER

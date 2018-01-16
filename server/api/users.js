@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User} = require('../db/models');
+const { User } = require('../db/models');
 const gatekeeperMiddleware = require('../../utils/gatekeeperMiddleware');
 
 router.param('id', (req, res, next, id) => {
@@ -31,10 +31,10 @@ router.post('/',
   gatekeeperMiddleware.isLoggedIn,
   gatekeeperMiddleware.isAdmin,
   (req, res, next) => {
-  User.create(req.body)
-    .then(user => res.status(201).json(user))
-    .catch(next);
-});
+    User.create(req.body)
+      .then(user => res.status(201).json(user))
+      .catch(next);
+  });
 
 router.get('/:id', (req, res, next) => {
   res.json(req.requestedUser.sanitize());
@@ -44,18 +44,74 @@ router.put('/:id',
   gatekeeperMiddleware.isLoggedIn,
   gatekeeperMiddleware.isAdminOrSelf,
   (req, res, next) => {
-  req.requestedUser.update(req.body)
-    .then(user => res.json(user))
-    .catch(next);
-});
+    req.requestedUser.update(req.body)
+      .then(user => res.json(user))
+      .catch(next);
+  });
 
 router.delete('/:id',
   gatekeeperMiddleware.isLoggedIn,
   gatekeeperMiddleware.isAdminOrSelf,
   (req, res, next) => {
-  req.requestedUser.destroy()
-    .then(() => res.sendStatus(204))
-    .catch(next);
-});
+    req.requestedUser.destroy()
+      .then(() => res.sendStatus(204))
+      .catch(next);
+  });
+
+router.put('/:id/add-to-cart',
+  gatekeeperMiddleware.isLoggedIn,
+  (req, res, next) => {
+    let item = req.body;
+    User.findById(req.params.id)
+      .then((user) => {
+        let currentCart = user.cart;
+        if (!currentCart[item.id]) {
+          currentCart[item.id] = item;
+          user.update({
+            cart: currentCart
+          })
+        }
+        else {
+          currentCart[item.id].qty += item.qty;
+          user.update({
+            cart: currentCart
+          })
+        }
+      })
+      .then(updatedUser => res.json(updatedUser))
+      .catch(next);
+  });
+
+router.put('/:id/delete-from-cart',
+  gatekeeperMiddleware.isLoggedIn,
+  (req, res, next) => {
+    let item = req.body;
+    User.findById(req.params.id)
+      .then((user) => {
+        let currentCart = user.cart;
+        delete currentCart[Object.keys(item)[0]];
+        user.update({
+          cart: currentCart
+        })
+      })
+      .then(updatedUser => res.json(updatedUser))
+      .catch(next);
+  });
+
+router.put('/:id/edit-cart-quantity',
+  gatekeeperMiddleware.isLoggedIn,
+  (req, res, next) => {
+    let item = req.body;
+    User.findById(req.params.id)
+      .then((user) => {
+        let currentCart = user.cart;
+        currentCart[item.itemId].qty = item.qty
+        user.update({
+          cart: currentCart
+        })
+      })
+      .then(updatedUser => res.json(updatedUser))
+      .catch(next);
+  });
 
 module.exports = router;
