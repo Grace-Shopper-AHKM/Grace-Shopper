@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk, addToSessionCart } from '../store';
+import AddReview from './AddReview';
 
 class SingleBook extends Component {
 
@@ -46,12 +47,19 @@ class SingleBook extends Component {
                         }
                     </div>
                     <div>
+                      {
+                        this.props.user.id ?
+                        <AddReview bookId={this.props.match.params.bookId} />
+                        : null
+                      }
+                    </div>
+                    <div>
                         {
                             this.state.displayReviews
                                 ?
                                 <div>
                                     <button onClick={this.toggleReviews}>Hide Reviews</button>
-                                    {reviews.map(review => {
+                                    {reviews && reviews.map(review => {
                                         return (
                                             <ul key={review.id}>
                                                 <li>{review.title}, {review.rating} stars</li>
@@ -105,7 +113,8 @@ const mapState = (state, ownProps) => {
     return {
         book,
         reviews: state.reviews,
-        maxQuantity: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        maxQuantity: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        user: state.user
     }
 }
 
