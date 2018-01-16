@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAllBooks, searchAllBooks, deleteBookFromDB, fetchBook } from '../store';
+import { fetchAllBooks, searchAllBooks, deleteBookFromDB, fetchFilteredBooks, fetchBook } from '../store';
 import { SearchBar } from './SearchBar';
 import GenreBar from './GenreBar';
 import BookForm from './BookForm';
@@ -11,6 +11,7 @@ class AllBooks extends Component {
 
     componentDidMount() {
         this.props.loadBooks();
+        this.props.loadTotalBooks();
     }
 
     setToEdit(id) {
@@ -22,6 +23,7 @@ class AllBooks extends Component {
     }
 
     render() {
+        const { books, filteredBooks, deleteBookFromDB, searchBooks, } = this.props;
         return (
             <div>
                 {
@@ -38,12 +40,15 @@ class AllBooks extends Component {
 
                 }
                 <div>
-                    <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/>
-                    <GenreBar books={this.props.books} />
+                    <SearchBar books={books} searchBooks={searchBooks} />
+                    <GenreBar books={books} />
                 </div>
             <div>
                 {
-                    this.props.books.map(book => {
+                
+                <div>
+                    {
+                        filteredBooks.map(book => {
                             return (
                                 <div key={book.id}>
                                     <img src={book.photoUrl} />
@@ -83,9 +88,9 @@ class AllBooks extends Component {
                                     }
                                 </div>
                             )
-                    })
-                }
-            </div>
+                        })
+                    }
+                </div>
             </div>
         )
     }
@@ -96,6 +101,7 @@ const mapState = (state) => {
         books: state.books,
         isAdmin: state.user.isAdmin,
         displayForm: state.displayForm
+        filteredBooks: state.searchFilter
     }
 }
 
@@ -104,14 +110,16 @@ const mapDispatch = (dispatch) => {
         loadBooks() {
             dispatch(fetchAllBooks());
         },
-        searchBooks(searchTerm) {
-            dispatch(searchAllBooks(searchTerm));
+        loadTotalBooks() {
+            dispatch(fetchTotalBooks());
         },
         deleteOneBook(book) {
             dispatch(deleteBookFromDB(book))
         },
         loadBook(id) {
             dispatch(fetchBook(id))
+        searchBooks(books, searchTerm) {
+            dispatch(fetchFilteredBooks(books, searchTerm));
         }
     }
 }
