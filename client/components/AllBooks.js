@@ -42,7 +42,7 @@ class AllBooks extends Component {
                     (
                         <div>
                         <button id="add-book-button" onClick={this.setToCreate.bind(this)}>Add a book</button>
-                        { this.props.displayForm[0] && !this.props.displayForm[1] 
+                        { this.props.displayForm[0] && !this.props.displayForm[1]
                             ?
                             (   <div>
                                 <button onClick={this.hideForm.bind(this)}>Hide Form</button>
@@ -54,7 +54,6 @@ class AllBooks extends Component {
                     )
                     :
                     null
-                    
                 }
                     {
                         filteredBooks.map(book => {

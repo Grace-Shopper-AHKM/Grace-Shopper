@@ -6,7 +6,7 @@ import history from './history'
 import {Main, Login, Signup, UserHome, AllBooks, SingleBook, Checkout, UserAccount, Orders} from './components'
 import {me} from './store'
 
-import Cart from './components/Cart'; /////hh
+import Cart from './components/Cart';
 
 /**
  * COMPONENT
