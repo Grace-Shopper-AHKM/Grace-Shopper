@@ -30,38 +30,36 @@ class AllBooks extends Component {
         const { books, filteredBooks, deleteBookFromDB, searchBooks } = this.props;
         return (
             <div id="all-books">
-            {
-                this.props.isAdmin
-                ?
-                (
-                    <div>
-                    <button onClick={this.setToCreate.bind(this)}>Add a book</button>
-                    { this.props.displayForm[0] && !this.props.displayForm[1] 
-                        ?
-                        (   <div>
-                            <button onClick={this.hideForm.bind(this)}>Hide Form</button>
-                            <BookForm isEdit={false} />
-                            </div>
-                        )
-                        : null }
-                    </div>
-                )
-                :
-                null
-                
-            }
-        
                 <div id="all-books-sidebar">
                     <SearchBar books={books} searchBooks={searchBooks} />
                     <GenreBar books={books} />
                 </div>
             <div id="all-books-stream">
                 <h1>Our Books</h1>
+                {
+                    this.props.isAdmin
+                    ?
+                    (
+                        <div>
+                        <button id="add-book-button" onClick={this.setToCreate.bind(this)}>Add a book</button>
+                        { this.props.displayForm[0] && !this.props.displayForm[1]
+                            ?
+                            (   <div>
+                                <button onClick={this.hideForm.bind(this)}>Hide Form</button>
+                                <BookForm isEdit={false} />
+                                </div>
+                            )
+                            : null }
+                        </div>
+                    )
+                    :
+                    null
+                }
                     {
                         filteredBooks.map(book => {
                             return (
                                 <div key={book.id} className="all-books-book-info">
-                                    <img src={book.photoUrl} className="all-books-book-block" />
+                                <NavLink to={`/books/${book.id}`}><img src={book.photoUrl} className="all-books-book-block" /></NavLink>
                                     <div className="all-books-book-block">
                                         <NavLink to={`/books/${book.id}`}><h3>{book.title}</h3></NavLink>
                                         <h5>by {book.author}</h5>
@@ -85,9 +83,9 @@ class AllBooks extends Component {
                                         this.props.isAdmin
                                             ?
                                             (
-                                                <div>
-                                                    <button key="2" onClick={this.setToEdit.bind(this, book.id)}>Edit</button>
-                                                    <button key="1" onClick={() => this.props.deleteOneBook(book)}>Delete</button>
+                                                <div className="all-books-book-info-buttons">
+                                                    <button className="edit-button" key="2" onClick={this.setToEdit.bind(this, book.id)}>Edit</button>
+                                                    <button className="delete-button" key="1" onClick={() => this.props.deleteOneBook(book)}>Delete</button>
                                                     {
                                                         this.props.displayForm[0] && this.props.displayForm[1]
                                                         ?

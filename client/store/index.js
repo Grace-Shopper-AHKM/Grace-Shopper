@@ -8,7 +8,8 @@ import singleBook from './singleBook';
 import cart from './getCart';
 import reviews from './reviews';
 import displayForm from './displayForm';
-import searchFilter from './searchFilter'
+import searchFilter from './searchFilter';
+import orders from './Orders';
 
 const reducer = combineReducers({
   user,
@@ -17,7 +18,8 @@ const reducer = combineReducers({
   cart,
   reviews,
   displayForm,
-  searchFilter
+  searchFilter,
+  orders
 })
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,

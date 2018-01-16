@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk, addToSessionCart, addToDBCart } from '../store';
 import AddReview from './AddReview';
 
-class SingleBook extends Component {
+export class SingleBook extends Component {
 
     constructor() {
         super();
