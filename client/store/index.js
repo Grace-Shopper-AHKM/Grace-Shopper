@@ -16,7 +16,7 @@ const reducer = combineReducers({
   singleBook,
   cart,
   reviews,
-  displayForm
+  displayForm,
   searchFilter
 })
 const middleware = composeWithDevTools(applyMiddleware(
