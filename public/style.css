@@ -4,6 +4,10 @@
 
 body {
   font-family: sans-serif;
+  margin: 20px;
+  background-color: #4c1c1c;
+  color: #d2c7c7;
+  text-shadow: 2px 2px 2px black;
 }
 
 a {
@@ -17,6 +21,14 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: #b77070;
 }
 
 form div {
@@ -53,14 +65,20 @@ form div {
 
 #all-books-sidebar {
   border: 1px solid black;
-  position: relative;
+  position: fixed;
+  height: 215px;
+  background-color: #b77070;
+  left: 80%;
+  top: 40%;
+  box-shadow: 0px 1px 1px black;
 }
 
 #all-books-sidebar ul {
   list-style: none;
   position: absolute;
-  left: -28px;
-  top: 46px;
+  text-align: center;
+  left: -12px;
+  top: 79px;
 }
 
 #all-books-stream {
@@ -72,6 +90,11 @@ form div {
 .all-books-book-info {
   display: flex;
   margin: 10px;
+  border-bottom: 1px solid gray;
+  background: linear-gradient(45deg, #dcc3c3, #922a2a);
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
 }
 
 .all-books-book-info button {
@@ -82,5 +105,46 @@ form div {
   margin: 5px;
 }
 
+.all-books-book-info-buttons {
+  position: absolute;
+  top: 77%;
+  left: 70%;
+}
 
+.form-field {
+  border: none;
+  border-bottom: 1px solid gray;
+  background-color: #b2dbff;
+  color: black;  
+}
 
+button {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 5px;
+  box-shadow: 0px 1px 1px black;  
+  color: white;
+  text-shadow: 1px 1px 1px black;
+}
+
+.edit-button {
+  background-color: #e0dcc2;
+}
+
+.delete-button {
+  background-color: #b77070;
+}
+
+#add-book-button {
+  background-color: #7276f1;
+}
+
+#search-bar {
+  margin: 10px;
+  height: 30px;
+  box-shadow: 0px 1px 1px black;
+}
+
+#genre-head {
+  text-align: center;
+}

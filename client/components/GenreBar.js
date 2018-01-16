@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchGenres, fetchTotalBooks, fetchBooksByGenre } from '../store';
 
@@ -13,13 +13,13 @@ class GenreBar extends Component {
         const genres = ['biography', 'dance', 'fiction', 'graphic novel', 'sports'];
         return (
             <div>
-                <h3>Genres</h3>
+                <h3 id="genre-head">Genres</h3>
                 <ul>
-                    <li><span onClick={this.props.loadAllBooks}>All</span></li>
+                    <NavLink to="/books"><li onClick={this.props.loadAllBooks}>All</li></NavLink>
                     {
                         genres.map(genre => {
                             return (
-                                <li key={genre}><span onClick={this.handleGenreSort.bind(this, genre)}>{genre}</span></li>
+                                <NavLink key={genre} to={`/books?genre=${genre}`}><li onClick={this.handleGenreSort.bind(this, genre)}>{genre}</li></NavLink>
                             )
                         })
                     }
