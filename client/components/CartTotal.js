@@ -18,7 +18,7 @@ export default class CartTotal extends Component {
         return (
             <div id='carttotal'>
                 <h3>Subtotal: ${this.getSubtotal()}</h3>
-                <button>checkout</button>
+                <button onClick={this.props.checkout}>checkout</button>
             </div>
         )
     }

@@ -35,4 +35,4 @@ export * from './getCart';
 export * from './reviews';
 export * from './displayForm';
 export * from './searchFilter';
-export * from './Orders';
+export * from './orders';

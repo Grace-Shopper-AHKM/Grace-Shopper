@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store, { deleteItem, updateCartItem, deleteFromSessionCart, updateSessionCartQuantity } from '../store';
+import store, { deleteItem, updateCartItem, deleteFromSessionCart, deleteFromDBCart, updateSessionCartQuantity, editQuantityDBCart } from '../store';
 
 
 class CartItems extends Component {
@@ -30,11 +30,11 @@ class CartItems extends Component {
     }
 
     render() {
-        const { item, handleSubmit, handleUpdate } = this.props;
+        const { item, handleSubmit, handleUpdate, userId } = this.props;
         return (
             <div className="shoppingcartitems">
                 <form onSubmit={(event) => {
-                    handleUpdate(event, item.id);
+                    handleUpdate(event, item.id, userId);
                     this.updateItemQty(event, item.id)
                 }}>
                     <div className='itemimagecontainer' style={{ width: '10%' }}>
@@ -45,7 +45,7 @@ class CartItems extends Component {
                         <p>{item.book.description}</p>
                         <input type="submit" value="Delete" onClick={(event) => {
                             this.deleteItemFromCart(item);
-                            handleSubmit(event, item);
+                            handleSubmit(event, item, userId);
                         }}
                         ></input>
                     </div>
@@ -62,21 +62,24 @@ class CartItems extends Component {
 
 const mapState = (state, ownProps) => {
     return {
+        userId: state.user.id
     }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
     const { history } = ownProps;
     return {
-        handleSubmit(event, book) {
+        handleSubmit(event, book, userId) {
             event.preventDefault();
             const itemId = book.id;
             dispatch(deleteFromSessionCart(itemId));
+            if (userId) dispatch(deleteFromDBCart(itemId, userId));
         },
-        handleUpdate(event, itemId) {
+        handleUpdate(event, itemId, userId) {
             event.preventDefault();
             const item = { itemId, qty: Number([event.target.quantity.value]) };
             dispatch(updateSessionCartQuantity(item));
+            if (userId) dispatch(editQuantityDBCart(item, userId));
         }
     }
 }

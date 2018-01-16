@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk, addToSessionCart } from '../store';
+import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk, addToSessionCart, addToDBCart } from '../store';
 import AddReview from './AddReview';
 
 export class SingleBook extends Component {
@@ -26,7 +26,7 @@ export class SingleBook extends Component {
     }
 
     render() {
-        const { book, reviews, handleSubmit, maxQuantity } = this.props;
+        const { book, reviews, handleSubmit, maxQuantity, user } = this.props;
         return (
             <div>
                 <img src={book.photoUrl} />
@@ -82,7 +82,7 @@ export class SingleBook extends Component {
                             ?
                             <div>
                                 <form onSubmit={(evt) => {
-                                    handleSubmit(evt, book)
+                                    handleSubmit(evt, book, user.id)
                                 }}>
                                     <h3>In Stock.</h3>
                                     <select name="quantity" required="true">
@@ -127,7 +127,7 @@ const mapDispatch = (dispatch, ownProps) => {
         loadReviews(id) {
             dispatch(fetchBookReviews(id));
         },
-        handleSubmit(evt, book) {
+        handleSubmit(evt, book, userId) {
             evt.preventDefault();
             let updateItem = store.getState().cart.filter(item => { return item.id === book.id })
             const item = { id: book.id, qty: Number(evt.target.quantity.value) };
@@ -138,6 +138,7 @@ const mapDispatch = (dispatch, ownProps) => {
                 dispatch(addItemThunk({ id: book.id, qty: Number([evt.target.quantity.value]), book }));
             }
             dispatch(addToSessionCart(item));
+            if(userId) dispatch(addToDBCart(item, userId));
             alert('Your book was added to your cart!');
             history.push('/books');
         }

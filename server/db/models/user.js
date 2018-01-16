@@ -23,7 +23,8 @@ const User = db.define('user', {
     }
   },
   cart: {
-    type: Sequelize.JSON
+    type: Sequelize.JSON,
+    defaultValue: {}
   },
   password: {
     type: Sequelize.STRING
