@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import store, { fetchBook, fetchBookReviews, addItemThunk, addToExistingItemThunk, addToSessionCart } from '../store';
+import AddReview from './AddReview';
 
 class SingleBook extends Component {
 
@@ -46,16 +47,23 @@ class SingleBook extends Component {
                         }
                     </div>
                     <div>
+                      {
+                        this.props.user.id ?
+                        <AddReview bookId={this.props.match.params.bookId} />
+                        : null
+                      }
+                    </div>
+                    <div>
                         {
                             this.state.displayReviews
                                 ?
                                 <div>
-                                    <button onClick={this.toggleReviews.bind(this)}>Hide Reviews</button>
-                                    {reviews.map(review => {
+                                    <button onClick={this.toggleReviews}>Hide Reviews</button>
+                                    {reviews && reviews.map(review => {
                                         return (
                                             <ul key={review.id}>
                                                 <li>{review.title}, {review.rating} stars</li>
-                                                <li>by {review.user.name}</li>
+                                                <li>by {review.user ? review.user.name : this.props.user.name}</li>
                                                 <li>{review.review}</li>
                                             </ul>
                                         )
@@ -105,7 +113,8 @@ const mapState = (state, ownProps) => {
     return {
         book,
         reviews: state.reviews,
-        maxQuantity: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        maxQuantity: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        user: state.user
     }
 }
 
