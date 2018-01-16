@@ -21,59 +21,78 @@ class AllBooks extends Component {
         store.dispatch(displayForm(true, false))
     }
 
+    hideForm() {
+        store.dispatch(displayForm(false))
+    }
+
     render() {
         return (
-            <div>
-                {
-                    this.props.isAdmin
+            <div id="all-books">
+            {
+                this.props.isAdmin
+                ?
+                (
+                    <div>
+                    <button onClick={this.setToCreate.bind(this)}>Add a book</button>
+                    { this.props.displayForm[0] && !this.props.displayForm[1] 
                         ?
-                        (
-                        <div>
-                            <button onClick={this.setToCreate.bind(this)}>Add a book</button>
-                            { this.props.displayForm[0] && !this.props.displayForm[1] ? <BookForm isEdit={false} /> : null }
-                        </div>
+                        (   <div>
+                            <button onClick={this.hideForm.bind(this)}>Hide Form</button>
+                            <BookForm isEdit={false} />
+                            </div>
                         )
-                        :
-                        null
-
-                }
-                <div>
+                        : null }
+                    </div>
+                )
+                :
+                null
+                
+            }
+                <div id="all-books-sidebar">
                     <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/>
                     <GenreBar books={this.props.books} />
                 </div>
-            <div>
+            <div id="all-books-stream">
+                <h1>Our Books</h1>
                 {
                     this.props.books.map(book => {
                             return (
-                                <div key={book.id}>
-                                    <img src={book.photoUrl} />
-                                    <ul>
-                                        <NavLink to={`/books/${book.id}`}><li>{book.title}</li></NavLink>
-                                        <li>by {book.author}</li>
-                                        <li>${book.price / 100}</li>
+                                <div key={book.id} className="all-books-book-info">
+                                    <img src={book.photoUrl} className="all-books-book-block" />
+                                    <div className="all-books-book-block">
+                                        <NavLink to={`/books/${book.id}`}><h3>{book.title}</h3></NavLink>
+                                        <h5>by {book.author}</h5>
+                                        <p>${book.price / 100}</p>
                                         {
                                             book.inventory === 0
                                                 ?
-                                                <li>OUT OF STOCK</li>
+                                                <h4>OUT OF STOCK</h4>
                                                 :
                                                 null
                                         }
                                         {
                                             book.inventory !== 0 && book.inventory <= 3
                                                 ?
-                                                <li>Hurry! Only {book.inventory} left in stock!</li>
+                                                <h5>Hurry! Only {book.inventory} left in stock!</h5>
                                                 :
                                                 null
                                         }
-                                    </ul>
+                                    </div>
                                     {
                                         this.props.isAdmin
                                             ?
                                             (
-                                                [
-                                                    <button key="2" onClick={this.setToEdit.bind(this, book.id)}>Edit</button>,
+                                                <div>
+                                                    <button key="2" onClick={this.setToEdit.bind(this, book.id)}>Edit</button>
                                                     <button key="1" onClick={() => this.props.deleteOneBook(book)}>Delete</button>
-                                                ]
+                                                    {
+                                                        this.props.displayForm[0] && this.props.displayForm[1]
+                                                        ?
+                                                        <button onClick={this.hideForm.bind(this)}>Hide Form</button>
+                                                        :
+                                                        null
+                                                    }
+                                                </div>
                                             )
                                             :
                                             null

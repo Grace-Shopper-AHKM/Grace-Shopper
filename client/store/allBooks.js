@@ -88,7 +88,9 @@ export default function booksReducer(state = [], action) {
             return book.id !== action.book.id;
           })
         case ADD_BOOK:
-          return [...state, action.book];
+          return state.filter(book => {
+            return book.id !== action.book.id
+          }).concat([action.book])
         default:
             return state;
     }
