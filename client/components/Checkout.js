@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import shippingAddressForm from '../../utils/shippingAddress';
+import { CheckoutShippingForm } from './CheckoutShippingForm';
+import { addOrder } from '../store';
 
 class Checkout extends Component {
     constructor(props) {
@@ -73,8 +74,19 @@ const mapDispatchToProps = function (dispatch, ownProps) {
         purchase() {
             dispatch(/* DELETE ITEM */);
         },
-        handleSubmit() {
-            dispatch(/* ADD SHIPPING ITEM */)
+        handleSubmit(evt) {
+            evt.preventDefault();
+            var address =
+                evt.target.line1.value
+                + ' '
+                + evt.target.line2.value
+                + ' '
+                + evt.target.city.value 
+                + ' ' 
+                + evt.target.state.value
+                + ' '
+                + evt.target.zip.value;
+            dispatch(addOrder(order));
         }
     };
 };
