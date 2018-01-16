@@ -15,7 +15,8 @@ const Main = (props) => {
 
   return (
     <div>
-      <h1>boooks</h1>
+      <h1>boook</h1>
+      <h5>By Ari, Han, Kevin & Max at Fullstack Academy 1710</h5>
       <nav>
         {
           isLoggedIn

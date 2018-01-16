@@ -85,31 +85,31 @@ export default class BookForm extends Component {
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div>
             <label>Title</label>
-            <input name="title" type="text" value={this.state.title} onChange={this.handleChange.bind(this, 'title')} />
+            <input className="form-field" name="title" type="text" value={this.state.title} onChange={this.handleChange.bind(this, 'title')} />
           </div>
           <div>
             <label>Author</label>
-            <input name="author" type="text" value={this.state.author} onChange={this.handleChange.bind(this, 'author')} />
+            <input className="form-field" name="author" type="text" value={this.state.author} onChange={this.handleChange.bind(this, 'author')} />
           </div>
           <div>
             <label>Description</label>
-            <input name="description" type="text" value={this.state.description} onChange={this.handleChange.bind(this, 'description')} />
+            <input className="form-field" name="description" type="text" value={this.state.description} onChange={this.handleChange.bind(this, 'description')} />
           </div>
           <div>
             <label>Genre</label>
-            <input name="genre" type="text" value={this.state.genre} onChange={this.handleChange.bind(this, 'genre')} />
+            <input className="form-field" name="genre" type="text" value={this.state.genre} onChange={this.handleChange.bind(this, 'genre')} />
           </div>
           <div>
             <label>Price</label>
-            <input name="price" type="number" value={this.state.price} onChange={this.handleChange.bind(this, 'price')} />
+            <input className="form-field" name="price" type="number" value={this.state.price} onChange={this.handleChange.bind(this, 'price')} />
           </div>
           <div>
             <label>Inventory</label>
-            <input name="inventory" type="number" value={this.state.inventory} onChange={this.handleChange.bind(this, 'inventory')} />
+            <input className="form-field" name="inventory" type="number" value={this.state.inventory} onChange={this.handleChange.bind(this, 'inventory')} />
           </div>
           <div>
             <label>Photo</label>
-            <input name="photoUrl" type="text" value={this.state.photoUrl} onChange={this.handleChange.bind(this, 'photoUrl')} />
+            <input className="form-field" name="photoUrl" type="text" value={this.state.photoUrl} onChange={this.handleChange.bind(this, 'photoUrl')} />
           </div>
           {
             !this.props.isEdit
@@ -117,7 +117,7 @@ export default class BookForm extends Component {
               (
                 <div>
                   <label>SKU</label>
-                  <input name="sku" type="number" value={this.state.sku} onChange={this.handleChange.bind(this, 'sku')} />
+                  <input className="form-field" name="sku" type="number" value={this.state.sku} onChange={this.handleChange.bind(this, 'sku')} />
                 </div>
               )
               :
