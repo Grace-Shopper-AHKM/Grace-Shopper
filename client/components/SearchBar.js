@@ -12,7 +12,7 @@ export const SearchBar = (props) => {
     return (
         <div>
             <form>
-                <input
+                <input id="search-bar"
                     type="text"
                     placeholder="Search by title here..."
                     onChange={(evt) => {
