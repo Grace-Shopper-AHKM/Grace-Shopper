@@ -1,31 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import shippingAddressForm from '../../utils/shippingAddress';
+// import { CheckoutGuest } from './CheckoutGuest';
+// import { CheckoutUser } from './CheckoutUser';
+import { CheckoutAddressForm } from './CheckoutAddressForm';
+import { addOrder } from '../store';
 
-class Checkout extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            toggleShipping: false,
-        }
+export class Checkout extends Component {
+    constructor() {
+        super();
     }
     render() {
-        // const { cart } = this.props;
-
+        const { handleSubmit } = this.props;
         return (
             <div>
-                <h1>Checkout{}</h1>
-
-                <h3>
-                    Shipping Address:
-                    {/* {users.address ? users.address : shippingAddress()} */}
-                </h3>
-
-                <button onClick={() => { }}>
-                    Place your order
-                </button>
-
+                <h1>Checkout</h1>
+                <CheckoutAddressForm handleSubmit={handleSubmit} />
                 <ul>
                     <h3>
                         Order Summary:
@@ -51,6 +41,8 @@ class Checkout extends Component {
                         Order total:
                     </h3>
                 </ul>
+                {/* <CheckoutUser />
+                <CheckoutGuest /> */}
             </div>
         )
     }
@@ -59,22 +51,34 @@ class Checkout extends Component {
 // NEED UPDATED USERS, PRODUCTS, CART
 
 const mapStateToProps = function (state, ownProps) {
-    // const { cart } = state;
     return {
-        // cart
     };
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
     return {
-        updateAddress() {
-            dispatch(/* UPDATE ADDRESS */);
-        },
-        purchase() {
-            dispatch(/* DELETE ITEM */);
-        },
-        handleSubmit() {
-            dispatch(/* ADD SHIPPING ITEM */)
+        handleSubmit(evt) {
+            console.log('hellookfoasdkfoaksdf');
+            evt.preventDefault();
+            let orderStatus = 'pending';
+            let orderRecipient = evt.target.firstName.value + ' ' + evt.target.lastName.value;
+            let orderEmail = evt.target.email.value;
+            let orderAddress =
+                evt.target.line1.value +
+                ' ' +
+                evt.target.line2.value +
+                ', ' +
+                evt.target.state.value +
+                ', ' +
+                evt.target.zip.value;
+
+            let order = {
+                orderStatus,
+                orderRecipient,
+                orderEmail,
+                orderAddress
+            }
+            dispatch(addOrder(order));
         }
     };
 };

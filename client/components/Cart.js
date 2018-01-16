@@ -26,7 +26,7 @@ class Cart extends Component {
     }
     
     render() {
-        const { cart } = this.props;
+        const { cart, history } = this.props;
         return (
             <div id='cart' >
                 <div style={{ width: '80%' }}>
@@ -37,7 +37,7 @@ class Cart extends Component {
                     }
                 </div>
                 <div style={{ width: '20%' }}>
-                    <CartTotal cartItems={cart} />
+                    <CartTotal cartItems={cart} history={history} />
                 </div>
             </div>
         )
@@ -45,9 +45,10 @@ class Cart extends Component {
 }
 
 
-const mapState = (state) => {
+const mapState = (state, ownProps) => {
     return {
-        cart: state.cart
+        cart: state.cart,
+        history: ownProps.history
     }
 }
 

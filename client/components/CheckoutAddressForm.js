@@ -1,4 +1,9 @@
-function shippingAddressForm() {
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
+
+
+export const CheckoutAddressForm = (props) => {
+    const { handleSubmit } = props
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -37,7 +42,7 @@ function shippingAddressForm() {
                 />
             </div>
             <div>
-                <label>State/Province/Region:</label>
+                <label>State:</label>
                 <input
                     type="text"
                     name="state"
@@ -51,20 +56,17 @@ function shippingAddressForm() {
                 />
             </div>
             <div>
-                <label>Country:</label>
+                <label>Email (Order Status Updates):</label>
                 <input
                     type="text"
-                    name="country"
+                    name="email"
                 />
             </div>
             <div>
-                <label>Phone Number:</label>
-                <input
-                    type="text"
-                    name="phoneNumber"
-                />
+                <button type="submit">
+                    Place your order
+                </button>
             </div>
         </form>
     )
 }
-export default shippingAddressForm;

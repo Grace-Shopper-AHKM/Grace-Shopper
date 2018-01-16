@@ -4,6 +4,7 @@ export default class CartTotal extends Component {
     constructor() {
         super();
         this.getSubtotal = this.getSubtotal.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     getSubtotal() {
@@ -14,11 +15,15 @@ export default class CartTotal extends Component {
         return subTotal;
     }
 
+    handleClick() { 
+        this.props.history.push('/checkout');
+    }
+
     render() {
         return (
             <div id='carttotal'>
                 <h3>Subtotal: ${this.getSubtotal()}</h3>
-                <button>checkout</button>
+                <button onClick={this.handleClick}>Checkout</button>
             </div>
         )
     }
