@@ -8,6 +8,7 @@ import singleBook from './singleBook';
 import cart from './getCart';
 import reviews from './reviews';
 import displayForm from './displayForm';
+import searchFilter from './searchFilter'
 
 const reducer = combineReducers({
   user,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   singleBook,
   cart,
   reviews,
-  displayForm
+  displayForm,
+  searchFilter
 })
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -30,3 +32,4 @@ export * from './singleBook';
 export * from './getCart';
 export * from './reviews';
 export * from './displayForm';
+export * from './searchFilter';

@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const GET_BOOKS = 'GET_BOOKS';
 const SEARCH_BOOKS = 'SEARCH_BOOKS';
-const DELETE_BOOK = 'DELETE_BOOK';
-const ADD_BOOK = 'ADD_BOOK';
+
 
 export function getBooks(books) {
     return {
@@ -18,21 +17,6 @@ export function searchBooks(searchTerm) {
         searchTerm
     }
 }
-
-export function deleteBook(book) {
-  return {
-    type: DELETE_BOOK,
-    book
-  }
-}
-
-export function addBook(book) {
-  return {
-    type: ADD_BOOK,
-    book
-  }
-}
-
 
 export function fetchAllBooks() {
     return function thunk(dispatch) {
@@ -52,23 +36,6 @@ export function searchAllBooks(searchTerm) {
     }
 }
 
-export function fetchBooksByGenre(genre) {
-    return function thunk(dispatch) {
-        return axios.get(`/api/books?genre=${genre}`)
-            .then(res => res.data)
-            .then(books => dispatch(getBooks(books)))
-            .catch(console.error);
-    }
-}
-
-export function deleteBookFromDB(book) {
-  return function thunk(dispatch) {
-    return axios.delete(`/api/books/${book.id}/delete`)
-      .then(() => dispatch(deleteBook(book)))
-      .catch(console.error)
-  }
-}
-
 // export function addBookToDB(book) {
 //   return function thunk(dispatch) {
 //     return axios.post('/api/books/add', book)
@@ -83,14 +50,6 @@ export default function booksReducer(state = [], action) {
             return action.books;
         case SEARCH_BOOKS:
             return state.filter((book) => book.title.toLowerCase().includes(action.searchTerm.toLowerCase()));
-        case DELETE_BOOK:
-          return state.filter(book => {
-            return book.id !== action.book.id;
-          })
-        case ADD_BOOK:
-          return state.filter(book => {
-            return book.id !== action.book.id
-          }).concat([action.book])
         default:
             return state;
     }

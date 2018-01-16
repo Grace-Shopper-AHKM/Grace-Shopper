@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAllBooks, searchAllBooks, deleteBookFromDB, fetchBook } from '../store';
+import { fetchAllBooks, searchAllBooks, deleteBookFromDB, fetchFilteredBooks, fetchBook, fetchTotalBooks } from '../store';
 import { SearchBar } from './SearchBar';
 import GenreBar from './GenreBar';
 import BookForm from './BookForm';
@@ -11,6 +11,7 @@ class AllBooks extends Component {
 
     componentDidMount() {
         this.props.loadBooks();
+        this.props.loadTotalBooks();
     }
 
     setToEdit(id) {
@@ -26,6 +27,7 @@ class AllBooks extends Component {
     }
 
     render() {
+        const { books, filteredBooks, deleteBookFromDB, searchBooks } = this.props;
         return (
             <div id="all-books">
             {
@@ -48,14 +50,15 @@ class AllBooks extends Component {
                 null
                 
             }
+        
                 <div id="all-books-sidebar">
-                    <SearchBar searchBooks={this.props.searchBooks} loadBooks={this.props.loadBooks}/>
-                    <GenreBar books={this.props.books} />
+                    <SearchBar books={books} searchBooks={searchBooks} />
+                    <GenreBar books={books} />
                 </div>
             <div id="all-books-stream">
                 <h1>Our Books</h1>
-                {
-                    this.props.books.map(book => {
+                    {
+                        filteredBooks.map(book => {
                             return (
                                 <div key={book.id} className="all-books-book-info">
                                     <img src={book.photoUrl} className="all-books-book-block" />
@@ -102,9 +105,9 @@ class AllBooks extends Component {
                                     }
                                 </div>
                             )
-                    })
-                }
-            </div>
+                        })
+                    }
+                </div>
             </div>
         )
     }
@@ -114,7 +117,8 @@ const mapState = (state) => {
     return {
         books: state.books,
         isAdmin: state.user.isAdmin,
-        displayForm: state.displayForm
+        displayForm: state.displayForm,
+        filteredBooks: state.searchFilter
     }
 }
 
@@ -123,14 +127,17 @@ const mapDispatch = (dispatch) => {
         loadBooks() {
             dispatch(fetchAllBooks());
         },
-        searchBooks(searchTerm) {
-            dispatch(searchAllBooks(searchTerm));
+        loadTotalBooks() {
+            dispatch(fetchTotalBooks());
         },
         deleteOneBook(book) {
             dispatch(deleteBookFromDB(book))
         },
         loadBook(id) {
             dispatch(fetchBook(id))
+        },
+        searchBooks(books, searchTerm) {
+            dispatch(fetchFilteredBooks(books, searchTerm));
         }
     }
 }
