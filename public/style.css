@@ -108,6 +108,7 @@ form div {
   border-radius: 10px;
   padding: 10px;
   position: relative;
+  width: 530px;
 }
 
 .all-books-book-info button {

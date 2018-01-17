@@ -81,7 +81,7 @@ const createApp = () => {
     req.session.cart[item.itemId].qty = item.qty;
     next();
   });
-
+  
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User, Order, BookOrder} = require('../db/models');
+const { User, Order, BookOrder } = require('../db/models');
 const gatekeeperMiddleware = require('../../utils/gatekeeperMiddleware');
 
 router.param('id', (req, res, next, id) => {
@@ -17,11 +17,11 @@ router.param('id', (req, res, next, id) => {
 });
 
 router.get('/userorders/:userid', (req, res, next) => {
-    let userid = Number(req.params.userid);
-    Order.findAll({ attributes: ['id'], where: {userId: userid}})
+  let userid = Number(req.params.userid);
+  Order.findAll({ attributes: ['id'], where: { userId: userid } })
     .then(orders => {
-      let orderIDs = orders.map(order => {return order.id});
-      return BookOrder.findAll({where: {orderId: {$in: orderIDs} } })
+      let orderIDs = orders.map(order => { return order.id });
+      return BookOrder.findAll({ where: { orderId: { $in: orderIDs } } })
     })
     .then(bookOrders => {
       res.send(bookOrders)

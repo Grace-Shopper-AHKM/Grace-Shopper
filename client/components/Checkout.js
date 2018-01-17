@@ -5,11 +5,11 @@ import { CheckoutShippingForm } from './CheckoutShippingForm';
 import { addOrder } from '../store';
 
 export const Checkout = (props) => {
-    const { handleSubmit } = props;
+    const { handleSubmit, userId } = props;
     return (
         <div>
             <h1>Checkout</h1>
-            <CheckoutShippingForm handleSubmit={handleSubmit} />
+            <CheckoutShippingForm handleSubmit={handleSubmit} userId={userId} />
             <ul>
                 <h3>
                     Order Summary:
@@ -32,13 +32,15 @@ export const Checkout = (props) => {
 const mapStateToProps = function (state, ownProps) {
     // const { cart } = state;
     return {
-        cart: state.cart
+        cart: state.cart,
+        userId: state.user.id
     };
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
+    const { history } = ownProps;
     return {
-        handleSubmit(evt) {
+        handleSubmit(evt, userId) {
             evt.preventDefault();
             let orderStatus = 'pending';
             let orderRecipient = evt.target.firstName.value + ' ' + evt.target.lastName.value;
@@ -58,9 +60,12 @@ const mapDispatchToProps = function (dispatch, ownProps) {
                 orderStatus,
                 orderRecipient,
                 orderEmail,
-                orderAddress
+                orderAddress,
+                userId
             };
             dispatch(addOrder(order));
+            alert('Your order was successfully placed!');
+            history.push('/books');
         }
     };
 };
